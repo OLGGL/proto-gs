@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FreeCAD model</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://rawgit.com/OLGGL/proto-gs/master/js/jquery-1.11.3.min.js"></script>
+    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/three.min.js"></script>
+    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/Detector.js"></script>
+    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/CanvasRenderer.js"></script>
+    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/Projector.js"></script>
+    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/dat.gui.js"></script>
+    <script src="https://rawgit.com/OLGGL/proto-gs/master/model/Stool300140450115.js"></script>
+    <script src="./js/TrackballControls.js"></script>
+
+    <div id="WebGLCanvas">
+    </div>
+</head>
+<body>
+<script>
+    var scene, camera;
+
+    initializeScene();
+
+    var H = dim.hauteur;
+    var L = dim.length;
+    var l1 = dim.l1;
+
+    var tmp_rotation = 5.8;
+
+    animateScene();
+
+    jQuery.loadScript = function (url, callback) {
+        jQuery.ajax({
+            url: url,
+            dataType: 'script',
+            success: callback,
+            async: true
+        });
+    }
+
+    function initializeScene(){
+        if(Detector.webgl){
+            renderer = new THREE.WebGLRenderer({antialias:true});
+        } else {
+            renderer = new THREE.CanvasRenderer();
+        }
+
+        renderer.setClearColor(0x000000, 1);
+        canvasWidth = 600;
+        canvasHeight = 500;
+        renderer.setSize(canvasWidth, canvasHeight);
+
+        document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
+        camera.position.set(800, 0, 1400);
+        camera.lookAt(scene.position);
+        camera.rotation.z = 90 * Math.PI / 180;
+        scene.add(camera);
+
+        controls = new THREE.TrackballControls( camera );
+        controls.rotateSpeed = 1.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+        controls.keys = [ 65, 83, 68 ];
+
+        var geom = new THREE.Geometry();
+        var v0 = new THREE.Vector3(-67.0,37.8306238574,444.050005485);
+        var v1 = new THREE.Vector3(-85.0,37.8306238574,444.050005485);
+        var v2 = new THREE.Vector3(-85.0,37.8306238574,432.050005485);
+        var v3 = new THREE.Vector3(-67.0,37.8306238574,432.050005485);
+        var v4 = new THREE.Vector3(-67.0,67.8306238574,444.050005485);
+        var v5 = new THREE.Vector3(-85.0,67.8306238574,444.050005485);
+        var v6 = new THREE.Vector3(-67.0,-22.1693761426,432.050005485);
+        var v7 = new THREE.Vector3(-85.0,-22.1693761426,432.050005485);
+        var v8 = new THREE.Vector3(-67.0,67.8306238574,377.050005485);
+        var v9 = new THREE.Vector3(-67.0,-78.5769842283,377.050005485);
+        var v10 = new THREE.Vector3(-67.0,-77.0211825529,385.873395242);
+        var v11 = new THREE.Vector3(-67.0,-69.2070145579,430.189744127);
+        var v12 = new THREE.Vector3(-67.0,-67.4705327812,440.037821658);
+        var v13 = new THREE.Vector3(-67.0,-88.838875589,387.957173374);
+        var v14 = new THREE.Vector3(-67.0,-81.024707594,432.273522259);
+        var v15 = new THREE.Vector3(-85.0,67.8306238574,377.050005485);
+        var v16 = new THREE.Vector3(-85.0,-78.5769842283,377.050005485);
+        var v17 = new THREE.Vector3(-85.0,-77.0211825529,385.873395242);
+        var v18 = new THREE.Vector3(-85.0,-69.2070145579,430.189744127);
+        var v19 = new THREE.Vector3(-85.0,-67.4705327812,440.037821658);
+        var v20 = new THREE.Vector3(-85.0,-81.024707594,432.273522259);
+        var v21 = new THREE.Vector3(-85.0,-88.838875589,387.957173374);
+        var v22 = new THREE.Vector3(-85.0,97.8306238574,444.050005485);
+        var v23 = new THREE.Vector3(-67.0,97.8306238574,444.050005485);
+        var v24 = new THREE.Vector3(-67.0,97.8306238574,432.050005485);
+        var v25 = new THREE.Vector3(-67.0,157.830623857,432.050005485);
+        var v26 = new THREE.Vector3(-67.0,214.238231943,377.050005485);
+        var v27 = new THREE.Vector3(-67.0,212.682430268,385.873395242);
+        var v28 = new THREE.Vector3(-67.0,204.868262273,430.189744127);
+        var v29 = new THREE.Vector3(-67.0,224.500123304,387.957173374);
+        var v30 = new THREE.Vector3(-67.0,203.131780496,440.037821658);
+        var v31 = new THREE.Vector3(-67.0,216.685955309,432.273522259);
+        var v32 = new THREE.Vector3(-85.0,97.8306238574,432.050005485);
+        var v33 = new THREE.Vector3(-85.0,157.830623857,432.050005485);
+        var v34 = new THREE.Vector3(-85.0,214.238231943,377.050005485);
+        var v35 = new THREE.Vector3(-85.0,212.682430268,385.873395242);
+        var v36 = new THREE.Vector3(-85.0,224.500123304,387.957173374);
+        var v37 = new THREE.Vector3(-85.0,204.868262273,430.189744127);
+        var v38 = new THREE.Vector3(-85.0,203.131780496,440.037821658);
+        var v39 = new THREE.Vector3(-85.0,216.685955309,432.273522259);
+        console.log(geom.vertices)
+        geom.vertices.push(v0);
+        geom.vertices.push(v1);
+        geom.vertices.push(v2);
+        geom.vertices.push(v3);
+        geom.vertices.push(v4);
+        geom.vertices.push(v5);
+        geom.vertices.push(v6);
+        geom.vertices.push(v7);
+        geom.vertices.push(v8);
+        geom.vertices.push(v9);
+        geom.vertices.push(v10);
+        geom.vertices.push(v11);
+        geom.vertices.push(v12);
+        geom.vertices.push(v13);
+        geom.vertices.push(v14);
+        geom.vertices.push(v15);
+        geom.vertices.push(v16);
+        geom.vertices.push(v17);
+        geom.vertices.push(v18);
+        geom.vertices.push(v19);
+        geom.vertices.push(v20);
+        geom.vertices.push(v21);
+        geom.vertices.push(v22);
+        geom.vertices.push(v23);
+        geom.vertices.push(v24);
+        geom.vertices.push(v25);
+        geom.vertices.push(v26);
+        geom.vertices.push(v27);
+        geom.vertices.push(v28);
+        geom.vertices.push(v29);
+        geom.vertices.push(v30);
+        geom.vertices.push(v31);
+        geom.vertices.push(v32);
+        geom.vertices.push(v33);
+        geom.vertices.push(v34);
+        geom.vertices.push(v35);
+        geom.vertices.push(v36);
+        geom.vertices.push(v37);
+        geom.vertices.push(v38);
+        geom.vertices.push(v39);
+        geom.faces.push( new THREE.Face3(0, 1, 2) );
+        geom.faces.push( new THREE.Face3(3, 0, 2) );
+        geom.faces.push( new THREE.Face3(1, 4, 5) );
+        geom.faces.push( new THREE.Face3(0, 4, 1) );
+        geom.faces.push( new THREE.Face3(6, 3, 2) );
+        geom.faces.push( new THREE.Face3(6, 2, 7) );
+        geom.faces.push( new THREE.Face3(8, 4, 3) );
+        geom.faces.push( new THREE.Face3(3, 4, 0) );
+        geom.faces.push( new THREE.Face3(8, 3, 6) );
+        geom.faces.push( new THREE.Face3(8, 6, 9) );
+        geom.faces.push( new THREE.Face3(9, 6, 10) );
+        geom.faces.push( new THREE.Face3(10, 6, 11) );
+        geom.faces.push( new THREE.Face3(11, 6, 12) );
+        geom.faces.push( new THREE.Face3(13, 10, 14) );
+        geom.faces.push( new THREE.Face3(10, 11, 14) );
+        geom.faces.push( new THREE.Face3(2, 5, 15) );
+        geom.faces.push( new THREE.Face3(1, 5, 2) );
+        geom.faces.push( new THREE.Face3(7, 2, 15) );
+        geom.faces.push( new THREE.Face3(16, 7, 15) );
+        geom.faces.push( new THREE.Face3(17, 7, 16) );
+        geom.faces.push( new THREE.Face3(18, 7, 17) );
+        geom.faces.push( new THREE.Face3(19, 7, 18) );
+        geom.faces.push( new THREE.Face3(20, 17, 21) );
+        geom.faces.push( new THREE.Face3(20, 18, 17) );
+        geom.faces.push( new THREE.Face3(5, 4, 22) );
+        geom.faces.push( new THREE.Face3(22, 4, 23) );
+        geom.faces.push( new THREE.Face3(12, 6, 7) );
+        geom.faces.push( new THREE.Face3(12, 7, 19) );
+        geom.faces.push( new THREE.Face3(24, 4, 8) );
+        geom.faces.push( new THREE.Face3(23, 4, 24) );
+        geom.faces.push( new THREE.Face3(25, 24, 8) );
+        geom.faces.push( new THREE.Face3(26, 25, 8) );
+        geom.faces.push( new THREE.Face3(27, 25, 26) );
+        geom.faces.push( new THREE.Face3(28, 27, 29) );
+        geom.faces.push( new THREE.Face3(28, 25, 27) );
+        geom.faces.push( new THREE.Face3(30, 25, 28) );
+        geom.faces.push( new THREE.Face3(31, 28, 29) );
+        geom.faces.push( new THREE.Face3(8, 9, 16) );
+        geom.faces.push( new THREE.Face3(8, 16, 15) );
+        geom.faces.push( new THREE.Face3(9, 10, 17) );
+        geom.faces.push( new THREE.Face3(9, 17, 16) );
+        geom.faces.push( new THREE.Face3(10, 13, 21) );
+        geom.faces.push( new THREE.Face3(10, 21, 17) );
+        geom.faces.push( new THREE.Face3(11, 12, 19) );
+        geom.faces.push( new THREE.Face3(11, 19, 18) );
+        geom.faces.push( new THREE.Face3(13, 14, 20) );
+        geom.faces.push( new THREE.Face3(13, 20, 21) );
+        geom.faces.push( new THREE.Face3(14, 11, 18) );
+        geom.faces.push( new THREE.Face3(14, 18, 20) );
+        geom.faces.push( new THREE.Face3(15, 5, 32) );
+        geom.faces.push( new THREE.Face3(32, 5, 22) );
+        geom.faces.push( new THREE.Face3(15, 32, 33) );
+        geom.faces.push( new THREE.Face3(15, 33, 34) );
+        geom.faces.push( new THREE.Face3(34, 33, 35) );
+        geom.faces.push( new THREE.Face3(36, 35, 37) );
+        geom.faces.push( new THREE.Face3(35, 33, 37) );
+        geom.faces.push( new THREE.Face3(37, 33, 38) );
+        geom.faces.push( new THREE.Face3(36, 37, 39) );
+        geom.faces.push( new THREE.Face3(32, 22, 23) );
+        geom.faces.push( new THREE.Face3(32, 23, 24) );
+        geom.faces.push( new THREE.Face3(34, 26, 8) );
+        geom.faces.push( new THREE.Face3(15, 34, 8) );
+        geom.faces.push( new THREE.Face3(32, 24, 25) );
+        geom.faces.push( new THREE.Face3(33, 32, 25) );
+        geom.faces.push( new THREE.Face3(35, 27, 26) );
+        geom.faces.push( new THREE.Face3(34, 35, 26) );
+        geom.faces.push( new THREE.Face3(33, 25, 38) );
+        geom.faces.push( new THREE.Face3(38, 25, 30) );
+        geom.faces.push( new THREE.Face3(35, 36, 29) );
+        geom.faces.push( new THREE.Face3(35, 29, 27) );
+        geom.faces.push( new THREE.Face3(38, 30, 28) );
+        geom.faces.push( new THREE.Face3(37, 38, 28) );
+        geom.faces.push( new THREE.Face3(39, 31, 36) );
+        geom.faces.push( new THREE.Face3(36, 31, 29) );
+        geom.faces.push( new THREE.Face3(37, 28, 31) );
+        geom.faces.push( new THREE.Face3(39, 37, 31) );
+        UVs(geom);
+
+        var texture = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('./bois.jpg'),  } );
+        texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+        var mesh = new THREE.Mesh( geom, texture );
+        scene.add( mesh );
+
+        setupGui();
+    }
+
+    function UVs(geometry) {
+
+        geometry.faceVertexUvs[0] = [];
+
+        geometry.faces.forEach(function(face) {
+
+            var components = ['x', 'y', 'z'].sort(function(a, b) {
+                return Math.abs(face.normal[a]) > Math.abs(face.normal[b]);
+            });
+
+            var v1 = geometry.vertices[face.a];
+            var v2 = geometry.vertices[face.b];
+            var v3 = geometry.vertices[face.c];
+
+            geometry.faceVertexUvs[0].push([
+                new THREE.Vector2(v1[components[0]], v1[components[1]]),
+                new THREE.Vector2(v2[components[0]], v2[components[1]]),
+                new THREE.Vector2(v3[components[0]], v3[components[1]])
+            ]);
+
+        });
+
+        geometry.uvsNeedUpdate = true;
+    }
+
+    function setupGui() {
+        dim = {
+
+            hauteur: 450,
+            length: 300,
+            l1: 140,
+            l2 : 115,
+            rotation: "false",
+        }
+
+        var h;
+
+        var gui = new dat.GUI();
+
+
+        gui.add( dim , "hauteur").min(350.).max(550.).step(50.);
+        gui.add( dim , "length", 250, 450).step(50.);
+        gui.add( dim , "l1", 140, 260 ).step(20.);
+        gui.add( dim, "rotation", ["true","false"]);
+
+    }
+
+    function animateScene(){
+        requestAnimationFrame(animateScene);
+        renderScene();
+        controls.update();
+    }
+
+    function renderScene(){
+        renderer.render(scene, camera);
+    }
+</script>
+</body>
+</html>
