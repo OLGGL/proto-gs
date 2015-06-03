@@ -150,7 +150,7 @@
             ModuleName = 'Stool'+String(dim.longueur)+String(dim.largeur)+String(dim.hauteur)+String(dim.l2);
             console.log(ModuleName);
             if (dim.material != "none"){
-                $.loadScript('./modelUvs/'+ModuleName+'.js', function(){
+                $.loadScript('https://rawgit.com/OLGGL/web-proto/master/modelUvs/'+ModuleName+'.js', function(){
                     remove = [];
                     scene.traverse( function( node ) {
                         if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
