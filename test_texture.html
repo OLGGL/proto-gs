@@ -22,7 +22,7 @@
     initializeScene();
 
     var H = dim.hauteur;
-    var L = dim.longueur;
+    var L = 450;
     var l1 = dim.largeur;
     var MAT = 'none';
 
@@ -43,9 +43,9 @@
             renderer = new THREE.CanvasRenderer();
         }
 
-        renderer.setClearColor(0x202020, 1);
-        canvasWidth = 900;
-        canvasHeight = 650;
+        renderer.setClearColor(0xE5DFDF, 1);
+        canvasWidth = window.innerWidth;
+        canvasHeight = window.innerHeight;
         renderer.setSize(canvasWidth, canvasHeight);
 
         document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
@@ -53,26 +53,24 @@
         scene = new THREE.Scene();
 
         camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
-        camera.position.set(1000, 80, 750);
-        var pos0 = new THREE.Vector3(0,80,200);
-        camera.lookAt(pos0);
-        console.log(scene.position);
-        camera.rotation.z = 90 * Math.PI / 180;
         scene.add(camera);
 
+        controls = new THREE.TrackballControls( camera );
+        controls.rotateSpeed = 1.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+        controls.keys = [ 65, 83, 68 ];
+        controls.position0.set(1000,80,750);
+        controls.target0.set(0, 80, 200);
+        controls.up0.set(0,0,1);
+        controls.reset();
 
         var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
-        //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')});
-
-        var g = Stool400160400115.geom();
-        var mesh0 = new THREE.Mesh( g[0][0], material );
-        var mesh1 = new THREE.Mesh( g[0][1], material );
-        var mesh2 = new THREE.Mesh( g[0][2], material );
-        var mesh3 = new THREE.Mesh( g[0][3], material );
-        var mesh4 = new THREE.Mesh( g[0][4], material );
-        var mesh5 = new THREE.Mesh( g[0][5], material );
-        var mesh6 = new THREE.Mesh( g[0][6], material );
-        scene.add(mesh0, mesh1, mesh2, mesh3, mesh3, mesh4, mesh5, mesh6);
+        //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')})
 
         // add subtle ambient lighting
         var ambientLight = new THREE.AmbientLight(0xbbbbbb);
@@ -143,7 +141,7 @@
         }
         requestAnimationFrame(animateScene);
         renderScene();
-        //controls.update();
+        controls.update();
     }
 
     $.ajaxSetup({'cache':true});
