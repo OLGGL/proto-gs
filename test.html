@@ -231,7 +231,6 @@
         UVs(geom);
 
         var texture = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('./bois.jpg'),  } );
-        texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
         var mesh = new THREE.Mesh( geom, texture );
         scene.add( mesh );
 

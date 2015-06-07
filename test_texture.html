@@ -26,18 +26,15 @@
     var l1 = dim.largeur;
     var MAT = 'none';
 
-    var tmp_rotation = 5.8;
+    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois1.jpg')});
+    texture1.magFilter = THREE.LinearFilter;
+    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois2.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
+
+
+    var tmp_rotation = 0;
 
     animateScene();
-
-    jQuery.loadScript = function (url, callback) {
-        jQuery.ajax({
-            url: url,
-            dataType: 'script',
-            success: callback,
-            async: true
-        });
-    };
 
     function initializeScene(){
         if(Detector.webgl){
@@ -66,6 +63,7 @@
 
         var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
         //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')});
+
         var g = Stool400160400115.geom();
         var mesh0 = new THREE.Mesh( g[0][0], material );
         var mesh1 = new THREE.Mesh( g[0][1], material );
@@ -92,12 +90,12 @@
     function setupMesh(geometry,material){
         console.log(geometry);
         var mesh0 = new THREE.Mesh( geometry[0][0], material );
-        var mesh1 = new THREE.Mesh( geometry[0][0], material );
-        var mesh2 = new THREE.Mesh( geometry[0][1], material );
-        var mesh3 = new THREE.Mesh( geometry[0][2], material );
-        var mesh4 = new THREE.Mesh( geometry[0][3], material );
-        var mesh5 = new THREE.Mesh( geometry[0][4], material );
-        var mesh6 = new THREE.Mesh( geometry[0][5], material );
+        var mesh1 = new THREE.Mesh( geometry[0][1], material );
+        var mesh2 = new THREE.Mesh( geometry[0][2], material );
+        var mesh3 = new THREE.Mesh( geometry[0][3], material );
+        var mesh4 = new THREE.Mesh( geometry[0][4], material );
+        var mesh5 = new THREE.Mesh( geometry[0][5], material );
+        var mesh6 = new THREE.Mesh( geometry[0][6], material );
         scene.add(mesh0, mesh1, mesh2, mesh3, mesh3, mesh4, mesh5, mesh6);
     }
 
@@ -122,6 +120,15 @@
         gui.add( dim , "material", ["none","bois1", "bois2"]);
         gui.add( dim, "rotation", ["true","false"]);
 
+    }
+
+    function textureDef(str, texture1, texture2){
+        switch(str){
+            case 'bois1':
+                return texture1;
+            case 'bois2':
+                return texture2;
+        }
     }
 
     function animateScene(){
@@ -164,7 +171,7 @@
                             var codeToExecute = "return "+ModuleName+'.geom()';
                             var tmpFunc = new Function(codeToExecute);
                             geometry = tmpFunc();
-                            setupMesh(geometry, new THREE.MeshBasicMaterial( { color: 0x888888 } ));
+                            setupMesh(geometry, textureDef(MAT, texture1, texture2 ));
                             scene.traverse( function( node ) {
                                 if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
                                     node.rotation.z =tmp_rotation;
