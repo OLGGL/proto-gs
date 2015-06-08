@@ -3,14 +3,13 @@
 <head>
     <title>FreeCAD model</title>
     <meta charset="utf-8">
-    <script type="text/javascript" src="https://rawgit.com/OLGGL/proto-gs/master/js/jquery-1.11.3.min.js"></script>
-    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/three.min.js"></script>
-    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/Detector.js"></script>
-    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/CanvasRenderer.js"></script>
-    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/Projector.js"></script>
-    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/dat.gui.js"></script>
-    <script src="./modelUvs/Stool400160400115.js"></script>
-    <script src="https://rawgit.com/OLGGL/proto-gs/master/js/TrackballControls.js"></script>
+    <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/three.min.js"></script>
+    <script src="./js/Detector.js"></script>
+    <script src="./js/CanvasRenderer.js"></script>
+    <script src="./js/Projector.js"></script>
+    <script src="./js/dat.gui.js"></script>
+    <script src="./js/TrackballControls.js"></script>
 
     <div id="WebGLCanvas">
     </div>
@@ -26,9 +25,9 @@
     var l1 = dim.largeur;
     var MAT = 'none';
 
-    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois1.jpg')});
+    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
     texture1.magFilter = THREE.LinearFilter;
-    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois2.jpg')});
+    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
     texture2.magFilter = THREE.LinearFilter;
 
 
@@ -55,8 +54,8 @@
         camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
         scene.add(camera);
 
-        controls = new THREE.TrackballControls( camera );
-        controls.rotateSpeed = 1.0;
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        controls.rotateSpeed = 2.0;
         controls.zoomSpeed = 1.2;
         controls.panSpeed = 0.8;
         controls.noZoom = false;
@@ -85,7 +84,7 @@
         setupGui();
     }
 
-    function setupMesh(geometry,material){
+    function setupMesh(geometry, material){
         console.log(geometry);
         var mesh0 = new THREE.Mesh( geometry[0][0], material );
         var mesh1 = new THREE.Mesh( geometry[0][1], material );
@@ -105,10 +104,14 @@
             largeur: 160,
             l2 : 115,
             rotation: "false",
-            material : "none"
+            material : "none",
+            ResetView : function(){controls.reset()}
+
         };
 
         var h;
+
+
 
         var gui = new dat.GUI();
 
@@ -117,6 +120,8 @@
         gui.add( dim , "largeur", 140, 260 ).step(20.);
         gui.add( dim , "material", ["none","bois1", "bois2"]);
         gui.add( dim, "rotation", ["true","false"]);
+        gui.add( dim, "ResetView");
+
 
     }
 
@@ -134,7 +139,7 @@
         if (dim.rotation == "true"){
             scene.traverse( function( node ) {
                 if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
-                    node.rotation.z += 0.01
+                    node.rotation.z += 0.01;
                     tmp_rotation = node.rotation.z;
                 }
             } );
