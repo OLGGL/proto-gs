@@ -1,6 +1,6 @@
 
 
-.flex-container {
+.general-container {
     padding: 0;
     margin: 0;
     list-style: none;
@@ -14,18 +14,13 @@
     -webkit-flex-flow: nowrap;
     justify-content: space-between;
 
-    border: 2px solid;
+    border: 0px solid;
     align-items: center;
     z-index: 0;
-
-    height:600px;
-    width:1000px;
 }
 
-.flex-item {
-    background: tomato;
+.general-item {
     padding: 5px;
-    width: 200px;
     height: 150px;
     margin-top: 10px;
 
@@ -35,4 +30,14 @@
     font-size: 3em;
     text-align: center;
     z-index: 1;
+}
+
+.left {
+    width: 300px;
+    background: tomato;
+}
+
+.right {
+    width: 300px;
+    background: green;
 }

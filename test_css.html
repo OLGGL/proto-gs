@@ -10,20 +10,19 @@
     <script src="./js/Projector.js"></script>
     <script src="./js/dat.gui.js"></script>
     <script src="./js/TrackballControls.js"></script>
+
     <link rel="stylesheet" href="./css/flexbox.css">
 
 
 </head>
 <body>
 
-<div class="flex-container">
-
-    <div id="WebGLCanvas">
+<div class="general-container">
+    <div class="general-item left">Dim</div>
+    <div id="WebGLCanvas" style="margin-left:-280px">
     </div>
-    <div class="flex-container">
-    <li class="flex-item">1</li>
-    <li class="flex-item">1</li>
-        </div>
+    <div class="general-item right">Mat</div>
+
 </div>
 
 <script>
@@ -35,6 +34,7 @@
     var L = 450;
     var l1 = dim.largeur;
     var MAT = 'none';
+    var canvasWidth = window.innerWidth;
 
     var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
     texture1.magFilter = THREE.LinearFilter;
@@ -54,8 +54,8 @@
         }
 
         renderer.setClearColor(0xE5DFDF, 1);
-        canvasWidth =1000;
-        canvasHeight = 600;
+        canvasWidth =window.innerWidth;
+        canvasHeight = window.innerHeight;
         renderer.setSize(canvasWidth, canvasHeight);
 
         document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
@@ -163,11 +163,18 @@
     $.ajaxSetup({'cache':true});
 
     function renderScene(){
-        if (dim.hauteur != H || dim.longueur != L || dim.largeur != l1 || dim.material != MAT ){
+        if (dim.hauteur != H || dim.longueur != L || dim.largeur != l1 || dim.material != MAT || window.innerWidth != canvasWidth ){
             H = dim.hauteur;
             L = dim.longueur;
             l1 = dim.largeur;
             MAT = dim.material;
+            canvasWidth = window.innerWidth;
+
+            // responsivness
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
             ModuleName = 'Stool'+String(dim.longueur)+String(dim.largeur)+String(dim.hauteur)+String(dim.l2);
             console.log(ModuleName);
             if (dim.material != "none"){
@@ -225,5 +232,6 @@
         renderer.render(scene, camera);
     }
 </script>
+
 </body>
 </html>
