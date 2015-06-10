@@ -12,27 +12,84 @@
     <script src="./js/TrackballControls.js"></script>
 
     <link rel="stylesheet" href="./css/flexbox.css">
+    <link rel="stylesheet" href="./css/slider.css">
 
 
 </head>
 <body>
 
 <div class="general-container">
-    <div class="general-item left">Dim</div>
-    <div id="WebGLCanvas" style="margin-left:-280px">
+    <div class="general-item left">
+        <div class="sidebox-container">
+            <div class="sidebox-item header">  Dimension (actif)</div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Hauteur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="350" max="550" value="450" step="50" oninput="outputUpdate(value,H)"></div>
+                <div class="column-item" style="width:15%"><output id="H">450</output></div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Longueur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="250" max="450" value="350" step="50" oninput="outputUpdate(value,Len)"></div>
+                <div class="column-item" style="width:15%"><output id="Len">350</output></div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Largeur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="140" max="260" value="200" step="20" oninput="outputUpdate(value,l)"></div>
+                <div class="column-item" style="width:15%"><output id="l">200</output></div>
+            </div>
+            <div class="sidebox-item header">  Matière (non actif)</div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:40%">Bois Massif</div>
+                <div class="column-item" style="width:60%">
+                    <select>
+                    <option>bois1</option>
+                    <option>N/A</option>
+                    <option>N/A</option>
+                    </select>
+                </div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:40%">Contreplaqué</div>
+                <div class="column-item" style="width:60%">
+                    <select>
+                        <option>bois2</option>
+                        <option>N/A</option>
+                        <option>N/A</option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="general-item right">Mat</div>
+    <div id="WebGLCanvas" class="webgl">
+    </div>
+    <div class="general-item right">Interface 2</div>
 
 </div>
+
+<script>
+function outputUpdate(value,dim) {
+    switch (dim){
+        case H:
+            document.querySelector('#H').value = value;
+            break;
+        case Len:
+            document.querySelector('#Len').value = value;
+            break;
+        case l:
+            document.querySelector('#l').value = value;
+            break;
+    }
+}
+</script>
 
 <script>
     var scene, camera;
 
     initializeScene();
 
-    var H = dim.hauteur;
+    var H = document.querySelector('#H').value;
     var L = 450;
-    var l1 = dim.largeur;
+    var l1 = document.querySelector('#l').value;
     var MAT = 'none';
     var canvasWidth = window.innerWidth;
 
@@ -96,7 +153,6 @@
     }
 
     function setupMesh(geometry, material){
-        console.log(geometry);
         var mesh0 = new THREE.Mesh( geometry[0][0], material );
         var mesh1 = new THREE.Mesh( geometry[0][1], material );
         var mesh2 = new THREE.Mesh( geometry[0][2], material );
@@ -110,9 +166,6 @@
     function setupGui() {
         dim = {
 
-            hauteur: 400,
-            longueur: 400,
-            largeur: 160,
             l2 : 115,
             rotation: "false",
             material : "none",
@@ -126,9 +179,6 @@
 
         var gui = new dat.GUI();
 
-        gui.add( dim , "hauteur").min(350.).max(550.).step(50.);
-        gui.add( dim , "longueur", 250, 450).step(50.);
-        gui.add( dim , "largeur", 140, 260 ).step(20.);
         gui.add( dim , "material", ["none","bois1", "bois2"]);
         gui.add( dim, "rotation", ["true","false"]);
         gui.add( dim, "ResetView");
@@ -163,20 +213,17 @@
     $.ajaxSetup({'cache':true});
 
     function renderScene(){
-        if (dim.hauteur != H || dim.longueur != L || dim.largeur != l1 || dim.material != MAT || window.innerWidth != canvasWidth ){
-            H = dim.hauteur;
-            L = dim.longueur;
-            l1 = dim.largeur;
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l1 || dim.material != MAT || window.innerWidth != canvasWidth ){
+            H = document.querySelector('#H').value;
+            L = document.querySelector('#Len').value;
+            l = document.querySelector('#l').value;
             MAT = dim.material;
             canvasWidth = window.innerWidth;
-
             // responsivness
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-
-            ModuleName = 'Stool'+String(dim.longueur)+String(dim.largeur)+String(dim.hauteur)+String(dim.l2);
-            console.log(ModuleName);
+            ModuleName = 'Stool'+String(L)+String(l)+String(H)+String(115);
             if (dim.material != "none"){
                 jQuery.getScript('./modelUvs/'+ModuleName+'.js')
                         .done(function() {
@@ -186,13 +233,14 @@
                                     remove.push(node);
                                 }
                             } );
-                            for (var i=0; i<remove.length; i++) {
-                                scene.remove(remove[i]);
-                            }
+
                             var codeToExecute = "return "+ModuleName+'.geom()';
                             var tmpFunc = new Function(codeToExecute);
                             geometry = tmpFunc();
                             setupMesh(geometry, textureDef(MAT, texture1, texture2 ));
+                            for (var i=0; i<remove.length; i++) {
+                                scene.remove(remove[i]);
+                            }
                             scene.traverse( function( node ) {
                                 if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
                                     node.rotation.z =tmp_rotation;
@@ -212,17 +260,19 @@
                                     remove.push(node);
                                 }
                             } );
-                            for (var i=0; i<remove.length; i++) {
-                                scene.remove(remove[i]);
-                            }
+
                             var codeToExecute = ModuleName+'.geom(scene)';
                             var tmpFunc = new Function(codeToExecute);
                             tmpFunc();
+                            for (var i=0; i<remove.length; i++) {
+                                scene.remove(remove[i]);
+                            }
                             scene.traverse( function( node ) {
                                 if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
                                     node.rotation.z =tmp_rotation;
                                 }
                             } );
+
                         })
                         .fail(function() {
                             /* boo, fall back to something else */
