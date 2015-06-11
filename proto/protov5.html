@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FreeCAD model</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/three.min.js"></script>
+    <script src="./js/Detector.js"></script>
+    <script src="./js/CanvasRenderer.js"></script>
+    <script src="./js/Projector.js"></script>
+    <script src="./js/dat.gui.js"></script>
+    <script src="./js/TrackballControls.js"></script>
+
+    <link rel="stylesheet" href="./css/flexbox.css">
+    <link rel="stylesheet" href="./css/slider.css">
+
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+
+</head>
+<body>
+
+
+
+<div class="general-container">
+    <div id="draggable1" class="general-item left ui-widget-content">
+        <div class="sidebox-container">
+            <div class="sidebox-item header">  Dimension (actif)</div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Hauteur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="350" max="550" value="450" step="50" oninput="outputUpdate(value,H)"></div>
+                <div class="column-item" style="width:15%"><output id="H">450</output></div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Longueur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="250" max="450" value="350" step="50" oninput="outputUpdate(value,Len)"></div>
+                <div class="column-item" style="width:15%"><output id="Len">350</output></div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Largeur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="140" max="260" value="200" step="20" oninput="outputUpdate(value,l)"></div>
+                <div class="column-item" style="width:15%"><output id="l">200</output></div>
+            </div>
+            <div class="sidebox-item header">  Matière (non actif)</div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:40%"><label for="c1">Wireframe</label></div>
+                <div class="column-item" style="width:60%"><input type="checkbox" id="c1" name="cc"/></div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:40%">Matière</div>
+                <div class="column-item" style="width:60%">
+                    <select>
+                        <option>none</option>
+                        <option>bois1</option>
+                        <option>bois2</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="WebGLCanvas" class="webgl">
+    </div>
+    <div id="draggable2" class="general-item right">Interface 2</div>
+
+</div>
+
+<script>
+    $(function() {
+        $( "#draggable1" ).draggable();
+        $( "#draggable2" ).draggable();
+    });
+</script>
+
+
+
+<script>
+    function outputUpdate(value,dim) {
+        switch (dim){
+            case H:
+                document.querySelector('#H').value = value;
+                break;
+            case Len:
+                document.querySelector('#Len').value = value;
+                break;
+            case l:
+                document.querySelector('#l').value = value;
+                break;
+        }
+    }
+</script>
+
+<script>
+    var scene, camera;
+
+    initializeScene();
+
+    var H = document.querySelector('#H').value;
+    var L = 450;
+    var l1 = document.querySelector('#l').value;
+    var MAT = 'none';
+    var canvasWidth = window.innerWidth;
+
+    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
+    texture1.magFilter = THREE.LinearFilter;
+    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
+
+
+    var tmp_rotation = 5.8;
+
+    animateScene();
+
+    function initializeScene(){
+        if(Detector.webgl){
+            renderer = new THREE.WebGLRenderer({antialias:true});
+        } else {
+            renderer = new THREE.CanvasRenderer();
+        }
+
+        renderer.setClearColor(0xE5DFDF, 1);
+        canvasWidth =window.innerWidth;
+        canvasHeight = window.innerHeight;
+        renderer.setSize(canvasWidth, canvasHeight);
+
+        document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
+        scene.add(camera);
+
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        controls.rotateSpeed = 2.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+        controls.keys = [ 65, 83, 68 ];
+        controls.position0.set(1400,20,900);
+        controls.target0.set(0, 20, 180);
+        controls.up0.set(0,0,1);
+        controls.reset();
+
+        var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
+        //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')})
+
+        // add subtle ambient lighting
+        var ambientLight = new THREE.AmbientLight(0xbbbbbb);
+        scene.add(ambientLight);
+
+        // directional lighting
+        var directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(500, 500, 500).normalize();
+        scene.add(directionalLight);
+
+
+        setupGui();
+    }
+
+    function setupMesh(geometry, material){
+        var mesh0 = new THREE.Mesh( geometry[0][0], material );
+        var mesh1 = new THREE.Mesh( geometry[0][1], material );
+        var mesh2 = new THREE.Mesh( geometry[0][2], material );
+        var mesh3 = new THREE.Mesh( geometry[0][3], material );
+        var mesh4 = new THREE.Mesh( geometry[0][4], material );
+        var mesh5 = new THREE.Mesh( geometry[0][5], material );
+        var mesh6 = new THREE.Mesh( geometry[0][6], material );
+        scene.add(mesh0, mesh1, mesh2, mesh3, mesh3, mesh4, mesh5, mesh6);
+    }
+
+    function setupGui() {
+        dim = {
+
+            l2 : 115,
+            rotation: "false",
+            material : "none",
+            ResetView : function(){controls.reset()}
+
+        };
+
+        var h;
+
+
+
+        var gui = new dat.GUI();
+
+        gui.add( dim , "material", ["none","bois1", "bois2"]);
+        gui.add( dim, "rotation", ["true","false"]);
+        gui.add( dim, "ResetView");
+
+
+    }
+
+    function textureDef(str, texture1, texture2){
+        switch(str){
+            case 'bois1':
+                return texture1;
+            case 'bois2':
+                return texture2;
+        }
+    }
+
+    function animateScene(){
+
+        if (dim.rotation == "true"){
+            scene.traverse( function( node ) {
+                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                    node.rotation.z += 0.01;
+                    tmp_rotation = node.rotation.z;
+                }
+            } );
+        }
+
+        requestAnimationFrame(animateScene);
+        renderScene();
+        controls.update();
+    }
+
+    $.ajaxSetup({'cache':true});
+
+    function renderScene(){
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || dim.material != MAT || window.innerWidth != canvasWidth ){
+            H = document.querySelector('#H').value;
+            L = document.querySelector('#Len').value;
+            l = document.querySelector('#l').value;
+            MAT = dim.material;
+            canvasWidth = window.innerWidth;
+            // responsivness
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            ModuleName = 'Stool'+String(L)+String(l)+String(H)+String(115);
+            if (dim.material != "none"){
+                jQuery.getScript('./modelUvs/'+ModuleName+'.js')
+                        .done(function() {
+                            remove = [];
+                            scene.traverse( function( node ) {
+                                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                                    remove.push(node);
+                                }
+                            } );
+
+                            var codeToExecute = "return "+ModuleName+'.geom()';
+                            var tmpFunc = new Function(codeToExecute);
+                            geometry = tmpFunc();
+                            setupMesh(geometry, textureDef(MAT, texture1, texture2 ));
+                            for (var i=0; i<remove.length; i++) {
+                                scene.remove(remove[i]);
+                            }
+                            scene.traverse( function( node ) {
+                                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                                    node.rotation.z =tmp_rotation;
+                                }
+                            } );
+                        })
+                        .fail(function() {
+                            /* boo, fall back to something else */
+                        });
+            }
+            else {
+                jQuery.getScript('./model/'+ModuleName+'.js')
+                        .done(function() {
+                            remove = [];
+                            scene.traverse( function( node ) {
+                                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                                    remove.push(node);
+                                }
+                            } );
+
+                            var codeToExecute = ModuleName+'.geom(scene)';
+                            var tmpFunc = new Function(codeToExecute);
+                            tmpFunc();
+                            for (var i=0; i<remove.length; i++) {
+                                scene.remove(remove[i]);
+                            }
+                            scene.traverse( function( node ) {
+                                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                                    node.rotation.z =tmp_rotation;
+                                }
+                            } );
+
+                        })
+                        .fail(function() {
+                            /* boo, fall back to something else */
+                        });
+            }
+        }
+        renderer.render(scene, camera);
+    }
+</script>
+
+</body>
+</html>

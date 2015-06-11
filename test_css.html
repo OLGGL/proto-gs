@@ -24,7 +24,7 @@
 
 
 <div class="general-container">
-    <div id="draggable" class="general-item left ui-widget-content">
+    <div id="draggable1" class="general-item left ui-widget-content">
         <div class="sidebox-container">
             <div class="sidebox-item header">  Dimension (actif)</div>
             <div class="sidebox-item content">
@@ -44,22 +44,16 @@
             </div>
             <div class="sidebox-item header">  Matière (non actif)</div>
             <div class="sidebox-item content">
-                <div class="column-item" style="width:40%">Bois Massif</div>
-                <div class="column-item" style="width:60%">
-                    <select>
-                    <option>bois1</option>
-                    <option>N/A</option>
-                    <option>N/A</option>
-                    </select>
-                </div>
+                <div class="column-item" style="width:40%"><label for="c1">Wireframe</label></div>
+                <div class="column-item" style="width:60%"><input type="checkbox" id="c1" name="cc"/></div>
             </div>
             <div class="sidebox-item content">
-                <div class="column-item" style="width:40%">Contreplaqué</div>
+                <div class="column-item" style="width:40%">Matière</div>
                 <div class="column-item" style="width:60%">
                     <select>
-                        <option>bois2</option>
-                        <option>N/A</option>
-                        <option>N/A</option>
+                    <option>none</option>
+                    <option>bois1</option>
+                    <option>bois2</option>
                     </select>
                 </div>
             </div>
@@ -67,15 +61,18 @@
     </div>
     <div id="WebGLCanvas" class="webgl">
     </div>
-    <div class="general-item right">Interface 2</div>
+    <div id="draggable2" class="general-item right">Interface 2</div>
 
 </div>
 
 <script>
     $(function() {
-        $( "#draggable" ).draggable();
+        $( "#draggable1" ).draggable();
+        $( "#draggable2" ).draggable();
     });
 </script>
+
+
 
 <script>
 function outputUpdate(value,dim) {
@@ -110,7 +107,7 @@ function outputUpdate(value,dim) {
     texture2.magFilter = THREE.LinearFilter;
 
 
-    var tmp_rotation = 0;
+    var tmp_rotation = 5.8;
 
     animateScene();
 
@@ -142,8 +139,8 @@ function outputUpdate(value,dim) {
         controls.staticMoving = true;
         controls.dynamicDampingFactor = 0.3;
         controls.keys = [ 65, 83, 68 ];
-        controls.position0.set(1000,80,750);
-        controls.target0.set(0, 80, 200);
+        controls.position0.set(1400,20,900);
+        controls.target0.set(0, 20, 180);
         controls.up0.set(0,0,1);
         controls.reset();
 
@@ -215,6 +212,9 @@ function outputUpdate(value,dim) {
                     tmp_rotation = node.rotation.z;
                 }
             } );
+        }
+        if ($('#c1').is(':checked')) {
+            console.log('checked');
         }
         requestAnimationFrame(animateScene);
         renderScene();
