@@ -99,3 +99,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
+#np.linalg.lstsq(a, b)
+#np.linalg.solve(a, b)
