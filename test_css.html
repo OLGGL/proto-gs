@@ -14,12 +14,17 @@
     <link rel="stylesheet" href="./css/flexbox.css">
     <link rel="stylesheet" href="./css/slider.css">
 
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
 
 </head>
 <body>
 
+
+
 <div class="general-container">
-    <div class="general-item left">
+    <div id="draggable" class="general-item left ui-widget-content">
         <div class="sidebox-container">
             <div class="sidebox-item header">  Dimension (actif)</div>
             <div class="sidebox-item content">
@@ -65,6 +70,12 @@
     <div class="general-item right">Interface 2</div>
 
 </div>
+
+<script>
+    $(function() {
+        $( "#draggable" ).draggable();
+    });
+</script>
 
 <script>
 function outputUpdate(value,dim) {
@@ -213,7 +224,7 @@ function outputUpdate(value,dim) {
     $.ajaxSetup({'cache':true});
 
     function renderScene(){
-        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l1 || dim.material != MAT || window.innerWidth != canvasWidth ){
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || dim.material != MAT || window.innerWidth != canvasWidth ){
             H = document.querySelector('#H').value;
             L = document.querySelector('#Len').value;
             l = document.querySelector('#l').value;
