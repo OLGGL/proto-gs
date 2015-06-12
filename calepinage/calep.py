@@ -104,6 +104,16 @@ class Planche(object):
             plt.plot(x, y)
         plt.show()
 
+    def is_piece_ok(self, ind_piece):
+        p = self.piece[ind_piece]
+        if not p.is_in_tableau(self.x, self.y):
+            return False
+        for j in range(len(self.pieces)):
+            if i != j:
+                if p.intersect(self.pieces[j], 0):
+                    return False
+        return True
+        
     def is_ok(self, margin):
         for p in self.pieces:
             if not p.is_in_tableau(self.x, self.y):
@@ -114,8 +124,8 @@ class Planche(object):
                     return False
         return True
 
-    def place_piece(self, dx, dy, dt, piece):
-        self.pieces.append(piece)
+    def place_piece(self, dx, dy, dt, ind_piece):
+        piece = self.pieces[ind_piece]
         x = 0
         while x < self.x:
             y = 0
@@ -124,7 +134,7 @@ class Planche(object):
                 while t < 2*math.pi:
                     shift = Point(x, y)
                     piece.move(shift, t)
-                    if piece.is_in_tableau(self.x, self.y) and self.is_ok(0):
+                    if self.is_piece_ok(ind_piece):
                         self.plot()
                         #return True
                     t += dt
