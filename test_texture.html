@@ -10,6 +10,7 @@
     <script src="./js/Projector.js"></script>
     <script src="./js/dat.gui.js"></script>
     <script src="./js/TrackballControls.js"></script>
+    <script src="./Stool400160350115.js"></script>
 
     <div id="WebGLCanvas">
     </div>
@@ -21,7 +22,7 @@
     initializeScene();
 
     var H = dim.hauteur;
-    var L = 450;
+    var L = dim.longueur;
     var l1 = dim.largeur;
     var MAT = 'none';
 
@@ -29,6 +30,8 @@
     texture1.magFilter = THREE.LinearFilter;
     var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
     texture2.magFilter = THREE.LinearFilter;
+
+    var linemat = new THREE.LineBasicMaterial( {color :0x000000, linewidth : 1});
 
 
     var tmp_rotation = 0;
@@ -80,20 +83,29 @@
         directionalLight.position.set(500, 500, 500).normalize();
         scene.add(directionalLight);
 
+        var wires = Stool400160350115.wireframe();
+        setupWire(wires, linemat);
 
         setupGui();
     }
 
     function setupMesh(geometry, material){
         console.log(geometry);
-        var mesh0 = new THREE.Mesh( geometry[0][0], material );
-        var mesh1 = new THREE.Mesh( geometry[0][1], material );
-        var mesh2 = new THREE.Mesh( geometry[0][2], material );
-        var mesh3 = new THREE.Mesh( geometry[0][3], material );
-        var mesh4 = new THREE.Mesh( geometry[0][4], material );
-        var mesh5 = new THREE.Mesh( geometry[0][5], material );
-        var mesh6 = new THREE.Mesh( geometry[0][6], material );
+        var mesh0 = new THREE.Line( geometry[0][0], material );
+        var mesh1 = new THREE.Line( geometry[0][1], material );
+        var mesh2 = new THREE.Line( geometry[0][2], material );
+        var mesh3 = new THREE.Line( geometry[0][3], material );
+        var mesh4 = new THREE.Line( geometry[0][4], material );
+        var mesh5 = new THREE.Line( geometry[0][5], material );
+        var mesh6 = new THREE.Line( geometry[0][6], material );
         scene.add(mesh0, mesh1, mesh2, mesh3, mesh3, mesh4, mesh5, mesh6);
+    }
+
+    function setupWire(wires){
+        for (i = 0; i < wires[0].length; i++){
+            var w = new THREE.Line(wires[0][i], new THREE.LineBasicMaterial( {color :0x000000, linewidth : 1}));
+            scene.add (w);
+        }
     }
 
     function setupGui() {
