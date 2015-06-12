@@ -12,6 +12,16 @@ class Piece(object):
         self.angle_base = [s.angle() for s in self.segments]
         self.shift = Point(0, 0)
         self.theta = 0
+        self.x_min = 0
+        self.x_max = 0
+        self.y_min = 0
+        self.y_max = 0
+
+    def compute_min_max(self):
+        self.x_min = min([pt.x for pt in self.points_new_base])
+        self.x_max = max([pt.x for pt in self.points_new_base])
+        self.y_min = min([pt.y for pt in self.points_new_base])
+        self.y_max = max([pt.y for pt in self.points_new_base])
 
     def __len__(self):
         return len(self.points)
@@ -22,8 +32,11 @@ class Piece(object):
         self.points_new_base = [pt.add(shift) for pt in self.points_new_base]
         self.theta = theta
         self.shift = shift
+        self.compute_min_max()
 
     def intersect(self, piece2, margin):
+        if not intersect_box(self.x_min, self.x_max, self.y_min, self.y_max, piece2.x_min, piece2.x_max, piece2.y_min, piece2.y_max):
+            return False
         for i in range(len(self)):
             pt1 = self.points_new_base[i]
             pt2 = self.points_new_base[(i+1)%(len(self))]
@@ -161,6 +174,12 @@ def intersect_segment(pt1, pt2, pta, ptb, margin):
         return True
     return False
 
+def intersect_box(x_min, x_max, y_min, y_max, x_min1, x_max1, y_min1, y_max1):
+    return intersect_segment_1d(x_min, x_max, x_min1, x_max1) and intersect_segment_1d(y_min, y_max, y_min1, y_max1)
+    
+def intersect_segment_1d(x_min, x_max, x_min1, x_max1):
+    return x_min <= x_min1 <= x_max or x_min <= x_max1 <= x_max
+    
 def main():
     piece_1 = Piece([Point(1,1), Point(2,2), Point(2,1)])
     piece_2 = Piece([Point(1,0), Point(0,2), Point(4,3), Point(6,0)])
