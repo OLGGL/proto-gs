@@ -143,13 +143,17 @@ class Planche(object):
                     return False
         return True
         
-    def is_ok(self):
-        for p in self.pieces:
+    def is_ok(self, pr=False):
+        for i, p in enumerate(self.pieces):
             if not p.is_in_tableau(self.x, self.y):
+                if pr:
+                    print("piece {}  out of bounds".format(i))
                 return False
         for i in range(len(self.pieces)):
             for j in range(i + 1, len(self.pieces)):
                 if self.pieces[i].intersect(self.pieces[j], self.margin):
+                    if pr:
+                        print("intersect pieces {} and {}".format(i, j))
                     return False
         return True
 
@@ -203,7 +207,7 @@ class Planche(object):
             return True
         self.pieces[ind].reinit()
         while self.update_place_piece(dx, dy, dt, ind):
-            return self.brute_force(dx, dy, dt, ind + 1)
+            return self.brute_force(dx, dy, dt, ind=ind + 1)
         return False
 
     def try_reduce(self, list_try, dx, dy, dt):
@@ -219,6 +223,7 @@ class Planche(object):
 
 
 def intersect_segment(pt1, pt2, pta, ptb, margin):
+    #TODO : check x-range and y-range first for better speed
     #eq1 = pt1.x + k1 * (pt2.x - pt1.x) = pta.x + ka * (ptb.x - pta.x)
     #eq2 = pt1.y + k1 * (pt2.y - pt1.y) = pta.y + ka * (ptb.y - pta.y)
     a = pt2.x - pt1.x
@@ -235,14 +240,17 @@ def intersect_segment(pt1, pt2, pta, ptb, margin):
     diff  = np.dot(m, u) - v
     norm = diff[0] ** 2 + diff[1] ** 2
 
-    if norm < 0.01 or 0 <= k1 <= 1 or 0 <= ka <= 1:
+    if norm > 0.01:
+        return False
+
+    if 0 <= k1 <= 1 and 0 <= ka <= 1:
         return True
 
     v1 = pt2.sub(pt1)
     va = ptb.sub(pta)
     d1 = get_distance_from_k(v1.size(), k1)
     da = get_distance_from_k(va.size(), ka)
-    if d1 < margin or da < margin:
+    if d1 < margin and da < margin:
         return True
 
     return False
@@ -268,7 +276,7 @@ def main():
     piece_2 = Piece([Point(1,0), Point(0,2), Point(4,3), Point(6,0)])
     piece_3 = Piece([Point(1,0), Point(0,2), Point(5,5), Point(4, 1), Point(3, 3)])
     piece_4 = Piece([Point(0,0), Point(2,0), Point(2,2), Point(0,2), Point(1,1)])
-    tablo = Planche(10, 10)
+    tablo = Planche(10, 10, 0.1)
     tablo.pieces = [piece_0, piece_1, piece_2, piece_3, piece_4]
     #piece_3.move(Point(8,9), math.pi)
     #piece_1.move(Point(1,3), 0)
@@ -277,26 +285,18 @@ def main():
     #piece_4.move(Point(0.5, 0.5), 0)
     tablo.plot()
 
-    margin = 0.1
-    tablo.margin = margin
-    for x in range(10,3,-1):
-        tablo.x = x
-        t = time.clock()
-        tablo.try_all_pieces(0.1, 0.1, math.pi / 8.0)
-        t_end = time.clock() - t
-        print(tablo.x, tablo.is_ok(), t_end)
-        print("-----")
-        tablo.plot()
+    test = [10, 8, 6, 5, 4]
+    tablo.try_reduce(test, 0.1, 0.1, math.pi / 8.0)
 
 def main_2():
-    p0 = Piece([Point(0,0), Point(0,5), Point(3,5), Point(3,0), Point(2,0), Point(2,4), Point(1,4), Point(1,0)])
+    p0 = Piece([Point(0,0), Point(0,5), Point(4,5), Point(4,0), Point(3,0), Point(3,4), Point(1,4), Point(1,0)])
     p1 = p0.copy()
-    p2 = Piece([Point(0,0), Point(0,7), Point(0.8,7), Point(0.8,0)])
+    p2 = Piece([Point(0,0), Point(0,7), Point(1.5,7), Point(1.5,0)])
 
-    tablo = Planche(6, 11, 0.1)
+    tablo = Planche(6, 11, 0.001)
     tablo.pieces = [p0, p1, p2]
-    tablo.plot()
-    test = [8,5,4.5,4,3.5]
+
+    test = [4.5]
     tablo.try_reduce(test, 0.1, 0.1, math.pi / 8.0)
 
 if __name__ == "__main__":
