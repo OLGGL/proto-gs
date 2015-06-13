@@ -19,6 +19,8 @@ class Piece(object):
     def reinit(self):
         self.shift = Point(0, 0)
         self.theta = 0
+        self.points_new_base = copy.copy(self.points)
+        self.compute_min_max()
 
     def compute_min_max(self):
         self.x_min = min([pt.x for pt in self.points_new_base])
@@ -133,16 +135,18 @@ class Planche(object):
             plt.plot(x, y)
         plt.show()
 
-    def is_piece_ok(self, ind_piece):
+    def is_piece_ok(self, ind_piece, ind_max=None):
         p = self.pieces[ind_piece]
         if not p.is_in_tableau(self.x, self.y):
             return False
-        for j in range(len(self.pieces)):
+        if ind_max is None:
+            ind_max = len(self.pieces)
+        for j in range(ind_max):
             if ind_piece != j:
                 if p.intersect(self.pieces[j], self.margin):
                     return False
         return True
-        
+
     def is_ok(self, pr=False):
         for i, p in enumerate(self.pieces):
             if not p.is_in_tableau(self.x, self.y):
@@ -155,6 +159,8 @@ class Planche(object):
                     if pr:
                         print("intersect pieces {} and {}".format(i, j))
                     return False
+        if pr:
+            print("Okay.")
         return True
 
     def place_piece(self, dx, dy, dt, ind_piece, x_start=0, y_start=0, t_start=0):
@@ -163,7 +169,7 @@ class Planche(object):
         while state is not None:
             shift = Point(state[0], state[1])
             piece.move(shift, state[2])
-            if self.is_piece_ok(ind_piece):
+            if self.is_piece_ok(ind_piece, ind_piece):
                 return True
             state = self.next_state(state, dx, dy, dt)
         return False
@@ -207,10 +213,13 @@ class Planche(object):
             return True
         self.pieces[ind].reinit()
         while self.update_place_piece(dx, dy, dt, ind):
-            return self.brute_force(dx, dy, dt, ind=ind + 1)
+            if self.brute_force(dx, dy, dt, ind=ind + 1):
+                return True
         return False
 
     def try_reduce(self, list_try, dx, dy, dt):
+        for p in self.pieces:
+            p.reinit()
         for x in list_try:
             self.x = x
             t = time.clock()
@@ -224,6 +233,9 @@ class Planche(object):
 
 def intersect_segment(pt1, pt2, pta, ptb, margin):
     #TODO : check x-range and y-range first for better speed
+    if not intersect_segment_1d(pt1.x, pt2.x, pta.x, ptb.x) or not intersect_segment_1d(pt1.y, pt2.y, pta.y, ptb.y):
+        return False
+
     #eq1 = pt1.x + k1 * (pt2.x - pt1.x) = pta.x + ka * (ptb.x - pta.x)
     #eq2 = pt1.y + k1 * (pt2.y - pt1.y) = pta.y + ka * (ptb.y - pta.y)
     a = pt2.x - pt1.x
@@ -240,7 +252,7 @@ def intersect_segment(pt1, pt2, pta, ptb, margin):
     diff  = np.dot(m, u) - v
     norm = diff[0] ** 2 + diff[1] ** 2
 
-    if norm > 0.01:
+    if norm > margin*margin:
         return False
 
     if 0 <= k1 <= 1 and 0 <= ka <= 1:
@@ -289,15 +301,21 @@ def main():
     tablo.try_reduce(test, 0.1, 0.1, math.pi / 8.0)
 
 def main_2():
-    p0 = Piece([Point(0,0), Point(0,5), Point(4,5), Point(4,0), Point(3,0), Point(3,4), Point(1,4), Point(1,0)])
+    p0 = Piece([Point(0.01,0), Point(0.01,5), Point(4,5), Point(4,0), Point(3,0), Point(3,4), Point(1,4), Point(1,0)])
     p1 = p0.copy()
-    p2 = Piece([Point(0,0), Point(0,7), Point(1.5,7), Point(1.5,0)])
+    p2 = Piece([Point(0.1,0), Point(0.1,7), Point(1.,7), Point(1.,0)])
 
     tablo = Planche(6, 11, 0.001)
     tablo.pieces = [p0, p1, p2]
 
+    p0.move(Point(0.,5.5), 0)
+    p1.move(Point(4.,5.), 3.14)
+    p2.move(Point(1.5, 1.5), 0)
+    tablo.plot()
+    tablo.is_ok(pr=True)
+
     test = [4.5]
-    tablo.try_reduce(test, 0.1, 0.1, math.pi / 8.0)
+    tablo.try_reduce(test, 0.5, 0.5, math.pi)
 
 if __name__ == "__main__":
     main_2()
