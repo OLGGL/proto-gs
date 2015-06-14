@@ -5,6 +5,31 @@ import numpy as np
 import time
 
 
+class Shift(object):
+    def __init__(self, x=0, y=0, t=0):
+        self.x = 0
+        self.y = 0
+        self.t = 0
+        self.finished = False
+
+    def next_state(self, xm, ym, dx, dy, dt):
+        if self.t + dt < 2*math.pi:
+            self.t += dt
+        elif self.y + dy < ym:
+            self.y += dy
+            self.t = 0
+        elif self.x + dx < xm:
+            self.x += dx
+            self.y = 0
+            self.t = 0
+        else:
+            self.finished = True
+        return self
+
+    def __str__(self):
+        str = "x={}_y={}_t={}".format(self.x, self.y, self.t)
+        return str
+
 class Piece(object):
     def __init__(self, pts):
         self.points = pts
@@ -12,15 +37,17 @@ class Piece(object):
         self.segments = [pt.sub(pts[0]) for pt in pts]
         self.distance = [s.size() for s in self.segments]
         self.angle_base = [s.angle() for s in self.segments]
-        self.shift = Point(0, 0)
-        self.theta = 0
+        self.shift = Shift()
         self.compute_min_max()
+        self.name = ""
 
     def reinit(self):
-        self.shift = Point(0, 0)
-        self.theta = 0
+        self.shift = Shift()
         self.points_new_base = copy.copy(self.points)
         self.compute_min_max()
+
+    def get_pos(self):
+        print(self.name, self.shift)
 
     def compute_min_max(self):
         self.x_min = min([pt.x for pt in self.points_new_base])
@@ -31,12 +58,12 @@ class Piece(object):
     def __len__(self):
         return len(self.points)
 
-    def move(self, shift, theta):
-        self.points_new_base = [pt.rotate(theta) for pt in self.segments]
-        shift = shift.add(self.points[0])
-        self.points_new_base = [pt.add(shift) for pt in self.points_new_base]
-        self.theta = theta
+    def move(self, shift):
         self.shift = shift
+        self.points_new_base = [pt.rotate(shift.t) for pt in self.segments]
+        pt_shift = Point(shift.x, shift.y)
+        pt_shift = pt_shift.add(self.points[0])
+        self.points_new_base = [pt.add(pt_shift) for pt in self.points_new_base]
         self.compute_min_max()
 
     def intersect(self, piece2, margin):
@@ -128,6 +155,11 @@ class Planche(object):
         self.margin = m
         self.pieces = []
 
+    def eval_complexite(self, dx, dy, dt):
+        c = self.x/dx * self.y/dy * math.pi * 2 / dt
+        c = len(self.pieces) ** c
+        print("complexite : {}".format(c))
+
     def plot(self):
         plt.plot(np.array([0, 0, self.x, self.x, 0]), np.array([0, self.y, self.y, 0, 0]))
         for piece in self.pieces:
@@ -163,32 +195,23 @@ class Planche(object):
             print("Okay.")
         return True
 
-    def place_piece(self, dx, dy, dt, ind_piece, x_start=0, y_start=0, t_start=0):
+    def place_piece(self, dx, dy, dt, ind_piece, memory=False):
         piece = self.pieces[ind_piece]
-        state = (x_start, y_start, t_start)
-        while state is not None:
-            shift = Point(state[0], state[1])
-            piece.move(shift, state[2])
+        if memory:
+            state = piece.shift
+            state = state.next_state(self.x, self.y, dx, dy, dt)
+        else:
+            state = Shift()
+        while not state.finished:
+            piece.move(state)
             if self.is_piece_ok(ind_piece, ind_piece):
                 return True
-            state = self.next_state(state, dx, dy, dt)
+            state = state.next_state(self.x, self.y, dx, dy, dt)
         return False
 
-    def next_state(self, state, dx, dy, dt):
-        if state[2] + dt < 2*math.pi:
-            return (state[0], state[1], state[2] + dt)
-        elif state[1]+dy < self.y:
-            return (state[0], state[1]+dy, 0)
-        elif state[0]+dx < self.x:
-            return (state[0]+dx, 0, 0)
-        else:
-            return None
-
-    def update_place_piece(self, dx, dy, dt, ind_piece):
-        x = self.pieces[ind_piece].shift.x
-        y = self.pieces[ind_piece].shift.y
-        t = self.pieces[ind_piece].theta
-        return self.place_piece(dx, dy, dt, ind_piece, x_start=x, y_start=y, t_start=t)
+    def get_pos(self):
+        for p in self.pieces:
+            p.get_pos()
 
     def try_all_pieces(self, dx, dy, dt):
         for ind in range(len(self.pieces)):
@@ -212,9 +235,13 @@ class Planche(object):
         if ind == len(self.pieces):
             return True
         self.pieces[ind].reinit()
-        while self.update_place_piece(dx, dy, dt, ind):
+        test = 0
+        while self.place_piece(dx, dy, dt, ind, memory=True):
+            test += 1
             if self.brute_force(dx, dy, dt, ind=ind + 1):
                 return True
+        if test > 0:
+            print("Test {} positions for piece {}".format(test, ind))
         return False
 
     def try_reduce(self, list_try, dx, dy, dt):
@@ -227,17 +254,35 @@ class Planche(object):
             self.brute_force(dx, dy, dt)
             t_end = time.clock() - t
             print(self.x, self.is_ok(), t_end)
+            print("solution")
+            self.get_pos()
             print("-----")
             self.plot()
 
 
+def intersect_segment_range(pt1, pt2, pta, ptb):
+    x_min = min(pt1.x, pt2.x)
+    x_max = max(pt1.x, pt2.x)
+    y_min = min(pt1.y, pt2.y)
+    y_max = max(pt1.y, pt2.y)
+    x_min1 = min(pta.x, ptb.x)
+    x_max1 = max(pta.x, ptb.x)
+    y_min1 = min(pta.y, ptb.y)
+    y_max1 = max(pta.y, ptb.y)
+    if intersect_segment_1d(x_min, x_max, x_min1, x_max1) and intersect_segment_1d(y_min, y_max, y_min1, y_max1):
+        return True
+    return False
+
 def intersect_segment(pt1, pt2, pta, ptb, margin):
-    #TODO : check x-range and y-range first for better speed
-    if not intersect_segment_1d(pt1.x, pt2.x, pta.x, ptb.x) or not intersect_segment_1d(pt1.y, pt2.y, pta.y, ptb.y):
+    if not intersect_segment_range(pt1, pt2, pta, ptb):
         return False
 
     #eq1 = pt1.x + k1 * (pt2.x - pt1.x) = pta.x + ka * (ptb.x - pta.x)
     #eq2 = pt1.y + k1 * (pt2.y - pt1.y) = pta.y + ka * (ptb.y - pta.y)
+
+    #a*k1 + b*ka = c
+    #d*k1 + e*ka = f
+
     a = pt2.x - pt1.x
     b = - (ptb.x - pta.x)
     c = pta.x - pt1.x
@@ -251,6 +296,9 @@ def intersect_segment(pt1, pt2, pta, ptb, margin):
 
     diff  = np.dot(m, u) - v
     norm = diff[0] ** 2 + diff[1] ** 2
+
+    #if np.linalg.det(m) < 1e-6:
+    #    if np.abs()
 
     if norm > margin*margin:
         return False
@@ -275,8 +323,10 @@ def get_distance_from_k(size, k):
         d = size * m
     return d
 
+
 def intersect_segment_1d(x_min, x_max, x_min1, x_max1):
     return x_min <= x_min1 <= x_max or x_min <= x_max1 <= x_max or x_min1 <= x_min <= x_max1 or x_min1 <= x_max <= x_max1
+
 
 def intersect_box(x_min, x_max, y_min, y_max, x_min1, x_max1, y_min1, y_max1):
     return intersect_segment_1d(x_min, x_max, x_min1, x_max1) and intersect_segment_1d(y_min, y_max, y_min1, y_max1)
@@ -290,32 +340,47 @@ def main():
     piece_4 = Piece([Point(0,0), Point(2,0), Point(2,2), Point(0,2), Point(1,1)])
     tablo = Planche(10, 10, 0.1)
     tablo.pieces = [piece_0, piece_1, piece_2, piece_3, piece_4]
-    #piece_3.move(Point(8,9), math.pi)
-    #piece_1.move(Point(1,3), 0)
-    #piece_0.move(Point(2,6), 1)
-    #piece_2.move(Point(0.5, 0.5), 0)
-    #piece_4.move(Point(0.5, 0.5), 0)
+
     tablo.plot()
 
     test = [10, 8, 6, 5, 4]
     tablo.try_reduce(test, 0.1, 0.1, math.pi / 8.0)
 
 def main_2():
+    print("main2")
     p0 = Piece([Point(0.01,0), Point(0.01,5), Point(4,5), Point(4,0), Point(3,0), Point(3,4), Point(1,4), Point(1,0)])
     p1 = p0.copy()
-    p2 = Piece([Point(0.1,0), Point(0.1,7), Point(1.,7), Point(1.,0)])
+    p2 = Piece([Point(0, 0), Point(0,7), Point(1.,7), Point(0.8,0)])
+    p3 = p2.copy()
 
     tablo = Planche(6, 11, 0.001)
-    tablo.pieces = [p0, p1, p2]
+    tablo.pieces = [p0, p1, p2, p3]
 
-    p0.move(Point(0.,5.5), 0)
-    p1.move(Point(4.,5.), 3.14)
-    p2.move(Point(1.5, 1.5), 0)
+    p0.move(Shift(0.,0.5, 0))
+    p1.move(Shift(1.5,0., 0))
+    p2.move(Shift(1.5, 1.5, 0))
     tablo.plot()
+
+    test = [6, 4.5]
+    tablo.try_reduce(test, 0.1, 0.5, math.pi)
     tablo.is_ok(pr=True)
 
-    test = [4.5]
-    tablo.try_reduce(test, 0.5, 0.5, math.pi)
+
+def main_3():
+    p0 = Piece([Point(0.01,0), Point(0.01,5), Point(4,5), Point(4,0), Point(3,0), Point(3,4), Point(1,4), Point(1,0)])
+    p1 = p0.copy()
+    t = time.clock()
+    p0.move(Point(10,10), 1.)
+    for a in range(1000):
+        p0.intersect(p1, 0.01)
+    t1 = time.clock() - t
+    print(t1)
+
+
+def main_4():
+    x = Shift(1,2,3)
+    print(x)
+
 
 if __name__ == "__main__":
-    main_2()
+    main_4()
