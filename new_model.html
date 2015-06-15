@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FreeCAD model</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/three.min.js"></script>
+    <script src="./js/Detector.js"></script>
+    <script src="./js/CanvasRenderer.js"></script>
+    <script src="./js/Projector.js"></script>
+    <script src="./js/dat.gui.js"></script>
+    <script src="./js/TrackballControls.js"></script>
+
+    <link rel="stylesheet" href="./css/flexbox.css">
+    <link rel="stylesheet" href="./css/slider.css">
+
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+
+</head>
+<body>
+
+
+
+<div class="general-container">
+    <div id="draggable1" class="general-item left ui-widget-content">
+        <div class="sidebox-container">
+            <div class="sidebox-item header">  Dimension</div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Hauteur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="350" max="550" value="450" step="50" oninput="outputUpdate(value,H)"></div>
+                <div class="column-item" style="width:15%"><output id="H">450</output>mm</div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Longueur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="250" max="450" value="350" step="50" oninput="outputUpdate(value,Len)"></div>
+                <div class="column-item" style="width:15%"><output id="Len">350</output>mm</div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:25%">Largeur</div>
+                <div class="column-item" style="width:60%"><input type="range" min="140" max="260" value="200" step="20" oninput="outputUpdate(value,l)"></div>
+                <div class="column-item" style="width:15%"><output id="l">200</output>mm</div>
+            </div>
+            <div class="sidebox-item header">  Matière</div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:40%"><label for="c1">Wireframe</label></div>
+                <div class="column-item" style="width:60%"><input type="checkbox" id="c1" name="cc" checked/></div>
+            </div>
+            <div class="sidebox-item content">
+                <div class="column-item" style="width:40%">Matière</div>
+                <div class="column-item" style="width:60%">
+                    <select id="material">
+                        <option>none</option>
+                        <option>bois1</option>
+                        <option>bois2</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="WebGLCanvas" class="webgl">
+    </div>
+    <div id="draggable2" class="general-item right">
+        <div class="sidebox-container">
+            <div class="sidebox-item header">  Contrôle</div>
+            <div style="padding: 5px"></div><input id="ResetView" type="button" value="Reset View" onclick="controls.reset()"/></div>
+    </div>
+</div>
+
+</div>
+
+<script>
+    $(function() {
+        $( "#draggable1" ).draggable();
+        $( "#draggable2" ).draggable();
+    });
+</script>
+
+
+
+<script>
+    function outputUpdate(value, dim) {
+        switch (dim){
+            case H:
+                document.querySelector('#H').value = value;
+                break;
+            case Len:
+                document.querySelector('#Len').value = value;
+                break;
+            case l:
+                document.querySelector('#l').value = value;
+                break;
+        }
+    }
+</script>
+
+<script>
+    var scene, camera;
+
+    initializeScene();
+
+    var H = document.querySelector('#H').value;
+    var L = 450;
+    var l1 = document.querySelector('#l').value;
+    var MAT = 'none';
+    var canvasWidth = window.innerWidth;
+    var wireframe = 1;
+
+    var basematerial = new THREE.MeshBasicMaterial( { color: 0x888888 } );
+    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
+    texture1.magFilter = THREE.LinearFilter;
+    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
+
+
+
+    var tmp_rotation = 5.8;
+
+    animateScene();
+
+    function initializeScene(){
+        if(Detector.webgl){
+            renderer = new THREE.WebGLRenderer({antialias:true});
+        } else {
+            renderer = new THREE.CanvasRenderer();
+        }
+
+        renderer.setClearColor(0xE5DFDF, 1);
+        canvasWidth =window.innerWidth;
+        canvasHeight = window.innerHeight;
+        renderer.setSize(canvasWidth, canvasHeight);
+
+        document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
+        scene.add(camera);
+
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        controls.rotateSpeed = 2.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+        controls.keys = [ 65, 83, 68 ];
+        controls.position0.set(1400,20,900);
+        controls.target0.set(0, 20, 180);
+        controls.up0.set(0,0,1);
+        controls.reset();
+
+        var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
+        //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')})
+
+        // add subtle ambient lighting
+        var ambientLight = new THREE.AmbientLight(0xbbbbbb);
+        scene.add(ambientLight);
+
+        // directional lighting
+        var directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(500, 500, 500).normalize();
+        scene.add(directionalLight);
+
+
+//        setupGui();
+    }
+
+    function setupMesh(geometry, material){
+        for (i = 0; i < geometry[0].length; i++){
+            var m = new THREE.Mesh(geometry[0][i], material);
+            scene.add (m);
+        }
+    }
+
+    function setupWire(wires){
+        for (i = 0; i < wires[0].length; i++){
+            var w = new THREE.Line(wires[0][i], new THREE.LineBasicMaterial( {color :0x000000, linewidth : 1}));
+            scene.add (w);
+        }
+    }
+
+    //    function setupGui() {
+    //        dim = {
+    //
+    //            l2 : 115,
+    //            rotation: "false",
+    //            ResetView : function(){controls.reset()}
+    //
+    //        };
+    //
+    //        var h;
+    //
+    //        var gui = new dat.GUI();
+    //
+    //        gui.add( dim, "rotation", ["true","false"]);
+    //        gui.add( dim, "ResetView");
+    //
+    //
+    //    }
+
+    function textureDef(str, basic, texture1, texture2){
+        switch(str){
+            case 'none':
+                return basic;
+            case 'bois1':
+                return texture1;
+            case 'bois2':
+                return texture2;
+        }
+    }
+
+    function animateScene(){
+
+//        if (dim.rotation == "true"){
+//            scene.traverse( function( node ) {
+//                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+//                    node.rotation.z += 0.01;
+//                    tmp_rotation = node.rotation.z;
+//                }
+//            } );
+//        }
+        requestAnimationFrame(animateScene);
+        renderScene();
+        controls.update();
+    }
+
+    $.ajaxSetup({'cache':true});
+
+    function renderScene(){
+        if ($('#c1').is(':checked')) {
+            tmp_wireframe = 1;
+        }
+        else {
+            tmp_wireframe = 0;
+        }
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || $('select[id=material]').val() != MAT || window.innerWidth != canvasWidth || tmp_wireframe != wireframe){
+            H = document.querySelector('#H').value;
+            L = document.querySelector('#Len').value;
+            l = document.querySelector('#l').value;
+            MAT = $('select[id=material]').val();
+            canvasWidth = window.innerWidth;
+            wireframe = tmp_wireframe;
+            // responsivness
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            ModuleName = 'Stool'+String(L)+String(l)+String(H)+String(115);
+            jQuery.getScript('./model/'+ModuleName+'.js')
+                    .done(function() {
+                        remove = [];
+                        scene.traverse( function( node ) {
+                            if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                                remove.push(node);
+                            }
+                        } );
+                        var codeToExecute_geom = "return "+ModuleName+'.geom()';
+                        var tmpFunc_geom = new Function(codeToExecute_geom);
+                        geometry = tmpFunc_geom();
+
+                        if ($('#c1').is(':checked')) {
+                            var codeToExecute_wires = "return "+ModuleName+'.wireframe()';
+                            var tmpFunc_wires = new Function(codeToExecute_wires);
+                            wire = tmpFunc_wires();
+                            setupWire(wire);
+//                                        for (var i=0; i<remove.length; i++) {
+//                                            scene.remove(remove[i]);
+//                                        }
+                            scene.traverse( function( node ) {
+                                if (  node instanceof THREE.Line) {
+                                    node.rotation.z =tmp_rotation;
+                                }
+                            } );
+
+
+                        }
+                        setupMesh(geometry, textureDef(MAT, basematerial, texture1, texture2 ));
+                        for (var i=0; i<remove.length; i++) {
+                            scene.remove(remove[i]);
+                        }
+                        scene.traverse( function( node ) {
+                            if ( node instanceof THREE.Mesh ) {
+                                node.rotation.z =tmp_rotation;
+                            }
+                        } );
+                    })
+                    .fail(function() {
+                        /* boo, fall back to something else */
+                    });
+//            if ($('#c1').is(':checked')) {
+//                jQuery.getScript('./modelWireFrame/'+ModuleName+'.js')
+//                        .done(function() {
+//                            remove = [];
+//                            scene.traverse( function( node ) {
+//                                if (node instanceof THREE.Line) {
+//                                    remove.push(node);
+//                                }
+//                            } );
+//                            var codeToExecute = ModuleName+'.wireframe(scene)';
+//                            var tmpFunc = new Function(codeToExecute);
+//                            tmpFunc();
+//                            for (var i=0; i<remove.length; i++) {
+//                                scene.remove(remove[i]);
+//                            }
+//                            scene.traverse( function( node ) {
+//                                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+//                                    node.rotation.z =tmp_rotation;
+//                                }
+//                            } );
+//
+//                        })
+//                        .fail(function() {
+//                            /* boo, fall back to something else */
+//                        })
+//                }
+//            else {
+//                remove = [];
+//                scene.traverse( function( node ) {
+//                    if (node instanceof THREE.Line) {
+//                        remove.push(node);
+//                    }
+//                } );
+//                for (var i=0; i<remove.length; i++) {
+//                    scene.remove(remove[i]);
+//                }
+//            }
+        }
+        renderer.render(scene, camera);
+    }
+</script>
+
+</body>
+</html>
