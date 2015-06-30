@@ -10,6 +10,7 @@
     <script src="./js/Projector.js"></script>
     <script src="./js/dat.gui.js"></script>
     <script src="./js/TrackballControls.js"></script>
+    <script src="./js/Debug.js"></script>
 
     <link rel="stylesheet" href="./css/flexbox.css">
     <link rel="stylesheet" href="./css/slider.css">
@@ -65,6 +66,10 @@
         <div class="sidebox-container">
             <div class="sidebox-item header">  Contrôle</div>
             <div style="padding: 5px"></div><input id="ResetView" type="button" value="Reset View" onclick="controls.reset()"/></div>
+        <div class="sidebox-item content">
+            <div class="column-item" style="width:40%"><label for="debug">Debug mode</label></div>
+            <div class="column-item" style="width:60%"><input type="checkbox" id="debug" name="cc2"/></div>
+        </div>
     </div>
 </div>
 
@@ -100,12 +105,14 @@
 
     initializeScene();
 
+
     var H = document.querySelector('#H').value;
     var L = 450;
     var l1 = document.querySelector('#l').value;
     var MAT = 'none';
     var canvasWidth = window.innerWidth;
     var wireframe = 1;
+    var debug = 0;
 
     var basematerial = new THREE.MeshBasicMaterial( { color: 0x888888 } );
     var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
@@ -114,10 +121,12 @@
     texture2.magFilter = THREE.LinearFilter;
 
 
-
-    var tmp_rotation = 5.8;
+    var tmp_rotation = 0;
 
     animateScene();
+
+
+
 
     function initializeScene(){
         if(Detector.webgl){
@@ -147,7 +156,7 @@
         controls.staticMoving = true;
         controls.dynamicDampingFactor = 0.3;
         controls.keys = [ 65, 83, 68 ];
-        controls.position0.set(1400,20,900);
+        controls.position0.set(1400,350,950);
         controls.target0.set(0, 20, 180);
         controls.up0.set(0,0,1);
         controls.reset();
@@ -225,6 +234,7 @@
         requestAnimationFrame(animateScene);
         renderScene();
         controls.update();
+
     }
 
     $.ajaxSetup({'cache':true});
@@ -236,19 +246,26 @@
         else {
             tmp_wireframe = 0;
         }
-        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || $('select[id=material]').val() != MAT || window.innerWidth != canvasWidth || tmp_wireframe != wireframe){
+        if ($('#debug').is(':checked')) {
+            tmp_debug = 1;
+        }
+        else {
+            tmp_debug = 0;
+        }
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || $('select[id=material]').val() != MAT || window.innerWidth != canvasWidth || tmp_wireframe != wireframe || tmp_debug != debug){
             H = document.querySelector('#H').value;
             L = document.querySelector('#Len').value;
             l = document.querySelector('#l').value;
             MAT = $('select[id=material]').val();
             canvasWidth = window.innerWidth;
             wireframe = tmp_wireframe;
+            debug = tmp_debug;
             // responsivness
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             ModuleName = 'Stool'+String(L)+String(l)+String(H)+String(115);
-            jQuery.getScript('./model/'+ModuleName+'.js')
+            jQuery.getScript('./new_model/'+ModuleName+'.js')
                     .done(function() {
                         remove = [];
                         scene.traverse( function( node ) {
@@ -259,6 +276,7 @@
                         var codeToExecute_geom = "return "+ModuleName+'.geom()';
                         var tmpFunc_geom = new Function(codeToExecute_geom);
                         geometry = tmpFunc_geom();
+
 
                         if ($('#c1').is(':checked')) {
                             var codeToExecute_wires = "return "+ModuleName+'.wireframe()';
@@ -273,9 +291,8 @@
                                     node.rotation.z =tmp_rotation;
                                 }
                             } );
-
-
                         }
+
                         setupMesh(geometry, textureDef(MAT, basematerial, texture1, texture2 ));
                         for (var i=0; i<remove.length; i++) {
                             scene.remove(remove[i]);
@@ -285,6 +302,12 @@
                                 node.rotation.z =tmp_rotation;
                             }
                         } );
+                        if ($('#debug').is(':checked')) {
+                            THREE.utils.enableDebug(scene );
+                        }
+                        else {
+                            THREE.utils.disableDebug(scene );
+                        }
                     })
                     .fail(function() {
                         /* boo, fall back to something else */
