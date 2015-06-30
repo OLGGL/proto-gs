@@ -16,7 +16,9 @@
     <!--<link rel="stylesheet" href="css/normalize.css">-->
     <link rel="stylesheet" href="css/style-ui.css">
     <!--<link rel="stylesheet" href="http://i.icomoon.io/public/temp/90320a65cd/UntitledProject2/style.css">-->
-    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/metro-icon.css" >
+    <link rel="stylesheet" href="css/slider.css">
 
 </head>
 
@@ -28,24 +30,24 @@
 
             <div class="side bar">
                 <ul>
-                    <li id="tabs1" onclick="showStuff(this)"><a href="#1"><span class="fontawesome-move" style="height: 30px"></span></a></li>
-                    <li id="tabs2" onclick="showStuff(this)"><a href="#2"><span class="fontawesome-file-alt"></span></a></li>
-                    <li><a href="#3"><span class="fontawesome-picture"></span></a></li>
-                    <li><a href="#4"><span class="entypo-link"></span></a></li>
+                    <li id="tabs1" onclick="showStuff(this)"><a><span class="fontawesome-resize-full"></span></a></li>
+                    <li id="tabs2" onclick="showStuff(this)"><a><span class="fontawesome-tree"></span></a></li>
+                    <li><a href="#3"><span class="fontawesome-tree"></span></a></li>
+                    <li><a href="#4"><span class="fontawesome-resize-full"></span></a></li>
                     <li><a href="#5"><span class="fontawesome-comments"></span></a></li>
                 </ul>
             </div>
 
             <div class="newPostContent">
                 <div id="tabs-1" class="tabContent">
-                <h1>Dimension</h1>
-                <input type="text" placeholder="Enter title here" id="post-title">
+                <h1>Choisissez les dimensions</h1>
+                    <input type="range" min="350" max="550" value="450" step="50" oninput="outputUpdate(value,H)">
+
 
                 </div>
 
                 <div id="tabs-2" class="tabContent">
-                    <h1>Matériaux</h1>
-                    <input type="text" placeholder="Enter title here" id="post-title">
+                    <h1>Choisissez votre matériau</h1>
 
                 </div>
             </div>
@@ -85,6 +87,13 @@
         // change tabsX into tabs-X in order to find the correct tab content
         var tabContentIdToShow = element.id.replace(/(\d)/g, '-$1');
         document.getElementById(tabContentIdToShow).style.display = 'block';
+        $(document).ready(function() {
+            tabContentIdToShow.click(function () {
+//                $(".tab").removeClass("active");
+                // $(".tab").addClass("active"); // instead of this do the below
+                $(this).addClass("active");
+            });
+        });
     }
 </script>
 
