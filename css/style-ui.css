@@ -1,4 +1,5 @@
-@import url(http://weloveiconfonts.com/api/?family=entypo|fontawesome);
+@import url(icons.css);
+
 /* entypo */
 [class*="entypo-"]:before {
     font-family: 'entypo', sans-serif;
@@ -16,10 +17,10 @@
 
 h1 {
     font-family: sans-serif;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 800;
     color: #2e3641;
-    margin: 0 0 10px 0;
+    margin: 0 0 0 0;
 }
 h2 {
     font-family: sans-serif;
@@ -46,7 +47,6 @@ ul {
     margin: 0;
     padding: 0;
 }
-
 textarea {
     border-color: #dae4eb;
     color: #dae4eb;
@@ -106,7 +106,7 @@ input[type=checkbox]:checked + label:before {
     text-align: center;
 }
 .bar a {
-    color: #ffff00;
+    color: ghostwhite;
     -webkit-transition: background .2s ease-out;
     -moz-transition: background .2s ease-out;
     -o-transition: background .2s ease-out;
@@ -117,6 +117,12 @@ input[type=checkbox]:checked + label:before {
     text-decoration: none;
     background: orange;
 }
+
+.bar a:active {
+    text-decoration: none;
+    background: yellow;
+}
+
 .title-bar {
     height: 55px;
     text-align: left;
