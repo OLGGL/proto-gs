@@ -7930,7 +7930,8 @@ var geom6 = new THREE.Geometry();
 
         //placeholder object
     return [geometry];
-    }
+    },
+
     wireframe : function() {
         wires = [];
         //placeholder object

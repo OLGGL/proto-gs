@@ -84,21 +84,19 @@
         scene.add(directionalLight);
 
         var wires = Stool400160350115.wireframe();
-        setupWire(wires, linemat);
+        var geom = Stool400160350115.geom();
+
+        setupWire(wires);
+        setupMesh(geom, textureDef("none", texture1, texture2))
 
         setupGui();
     }
 
     function setupMesh(geometry, material){
-        console.log(geometry);
-        var mesh0 = new THREE.Line( geometry[0][0], material );
-        var mesh1 = new THREE.Line( geometry[0][1], material );
-        var mesh2 = new THREE.Line( geometry[0][2], material );
-        var mesh3 = new THREE.Line( geometry[0][3], material );
-        var mesh4 = new THREE.Line( geometry[0][4], material );
-        var mesh5 = new THREE.Line( geometry[0][5], material );
-        var mesh6 = new THREE.Line( geometry[0][6], material );
-        scene.add(mesh0, mesh1, mesh2, mesh3, mesh3, mesh4, mesh5, mesh6);
+        for (i = 0; i < geometry[0].length; i++){
+            var m = new THREE.Mesh(geometry[0][i], material);
+            scene.add (m);
+        }
     }
 
     function setupWire(wires){

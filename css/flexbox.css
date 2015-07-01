@@ -26,16 +26,9 @@
     -ms-align-items: center;
     align-items: center;
 
-    border: 2px solid;
+    border: 0px solid;
     z-index: 0;
     width:100%;
-
-    /* added from style-ui */
-    height: 100%;
-    background-color: #e9f0f4;
-    margin: 0 auto;
-    padding-left: 15px;
-    padding-top: 40px;
 }
 
 .general-item {
@@ -50,9 +43,9 @@
 }
 
 .left {
-    width: 315px;
+    width: 350px;
     min-width: 300px;
-    height: 400px;
+    height: 500px;
     background: white;
 }
 
@@ -62,11 +55,7 @@
     background: white;
 }
 
-.webgl {
-    margin-left: 0px;
-    z-index: : -10;
-}
-/* Use for New version */
+
 .sidebox-container {
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
@@ -87,13 +76,13 @@
     -ms-flex-flow: nowrap;
     flex-flow: nowrap;
 
-    -webkit-flex-direction: row;
-    -moz-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
 
-    align-items: flex-start;
-    padding-left: 0px;
+    align-items: center;
+    padding: 5px;
 
 }
 
@@ -101,6 +90,19 @@
     height: auto;
 }
 
+.header {
+    background: lightgrey;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    width: 100%;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 3px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
 
 .content {
     background: white;
@@ -117,7 +119,7 @@
     height: auto;
     text-align: left;
     font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 
