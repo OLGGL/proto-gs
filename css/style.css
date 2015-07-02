@@ -35,14 +35,14 @@ Main components
 
 header {
 
-  height: auto;
-  text-align: center;
+  text-align: left;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-bottom: 20px;
 }
 header h1 {
-  font-size: 20px;
-  font-size: 1.25rem;
+  font-size: 12px;
+  font-size: 1rem;
 }
 
 .content {
@@ -56,13 +56,69 @@ header h1 {
   float: left;
 }
 
+.thumbnail {
+  position: relative;
+  width: 65px;
+  height: 65px;
+  overflow: visible;
+  display: block;
+}
+
+.thumbnail:hover {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  margin-top: -10px;
+  margin-left: -10px;
+}
+
+.thumbnail:hover p{
+  display: block;
+  position: relative;
+  left: 83%;
+  top: 85%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+.thumbnail p {
+  display:none
+}
+
+
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+
+
 .cd-tabs {
   position: absolute;
-  float: left;
-  width: 350px;
-  margin: 4em 0em 0em 2em;
-  z-index: 10;
 }
+
+.left {
+  float: left;
+  width: 400px;
+  margin: 1em 0em 0em 1em;
+  z-index: 10;
+  box-shadow: rgba(0,0,0,0.2) 10px 10px 10px;
+}
+
+
 .cd-tabs:after {
   content: "";
   display: table;
@@ -138,7 +194,7 @@ header h1 {
 }
 .cd-tabs-navigation a.selected {
   background-color: #ffffff !important;
-  box-shadow: inset 0 2px 0 #f05451;
+  box-shadow: inset 0 4px 0 #f05451;
   color: #29324e;
 }
 .cd-tabs-navigation a::before {
@@ -192,11 +248,11 @@ header h1 {
 
 .cd-tabs-content {
   background: #ffffff;
-  min-height: 600px;
+  min-height: 400px;
 }
 .cd-tabs-content li {
   display: none;
-  padding: 2em 2em 2em 7em;
+  padding: 1em 2em 2em 7em;
 }
 .cd-tabs-content li.selected {
   display: block;
@@ -206,11 +262,12 @@ header h1 {
 }
 .cd-tabs-content li p {
   font-size: 14px;
-  font-size: 0.875rem;
+  font-weight: 700;
   line-height: 1.6;
-  color: #8493bf;
-  margin-bottom: 0px;
+  color: #29324e;
+  margin-bottom: 5px;
 }
+
 
 @-webkit-keyframes cd-fade-in {
   0% {

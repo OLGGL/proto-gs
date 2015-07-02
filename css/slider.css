@@ -7,11 +7,12 @@ input[type=range] {
     border: 1px solid white;
 
     /*required for proper track sizing in FF*/
-    width: 90%;
+    width: 100%;
+    padding-bottom: 20px;
 }
 input[type=range]::-webkit-slider-runnable-track {
     width: 90%;
-    height: 5px;
+    height: 4px;
     background: #ddd;
     border: none;
     border-radius: 3px;
@@ -19,10 +20,10 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: none;
-    height: 16px;
-    width: 16px;
+    height: 13px;
+    width: 13px;
     border-radius: 50%;
-    background: goldenrod;
+    background: #f05451;
     margin-top: -4px;
 }
 input[type=range]:focus {
@@ -34,17 +35,17 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 input[type=range]::-moz-range-track {
     width: 90%;
-    height: 5px;
+    height: 4px;
     background: #ddd;
     border: none;
     border-radius: 3px;
 }
 input[type=range]::-moz-range-thumb {
     border: none;
-    height: 16px;
-    width: 16px;
+    height: 13px;
+    width: 13px;
     border-radius: 50%;
-    background: goldenrod;
+    background: #f05451;
 }
 
 /*hide the outline behind the border*/

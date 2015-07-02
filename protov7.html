@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
     <link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="css/control_bar.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="css/slider.css"> <!-- Resource style -->
+
     <script src="js/modernizr.js"></script> <!-- Modernizr -->
 
     <script src="js/jquery-2.1.1.js"></script>
@@ -33,28 +36,26 @@
 <body>
 <div class="content">
 
-
-    <div class="cd-tabs">
+    <div class="cd-tabs left">
         <nav>
             <ul class="cd-tabs-navigation">
                 <li><a data-content="inbox" class="selected" href="#0">Dimensions</a></li>
                 <li><a data-content="new" href="#0">Matériaux</a></li>
                 <li><a data-content="gallery" href="#0">Finitions</a></li>
                 <li><a data-content="store" href="#0">...</a></li>
-                <li><a data-content="settings" href="#0">...</a></li>
-                <li><a data-content="trash" href="#0">...</a></li>
             </ul> <!-- cd-tabs-navigation -->
         </nav>
 
         <ul class="cd-tabs-content">
             <li data-content="inbox" class="selected">
-                <p>Hauteur <output id="H">450</output> mm</p>
+                <header><h1>Choisissez les dimensions et adaptez le meuble à votre espace</h1></header>
+                <p style="float: left">Hauteur <p style="float: right"><output id="H">450</output> mm</p></p>
                 <input type="range" min="350" max="550" value="450" step="50" oninput="outputUpdate(value,H)">
 
-                <p>Longueur <output id="Len">350</output> mm</p>
+                <p style="float: left">Longueur <p style="float: right"><output id="Len">350</output> mm</p></p>
                 <input type="range" min="250" max="450" value="350" step="50" oninput="outputUpdate(value,Len)">
 
-                <p>Largeur <output id="l">200</output> mm</p>
+                <p style="float: left">Largeur  <p style="float: right"><output id="l">200</output> mm</p></p>
                 <input type="range" min="140" max="260" value="200" step="20" oninput="outputUpdate(value,l)">
 
                 <p><label for="c1">Wireframe</label> <input type="checkbox" id="c1" name="cc" checked/></p>
@@ -63,18 +64,25 @@
 
                 <p><label for="debug">Debug mode</label> <input type="checkbox" id="debug" name="cc2"/></p>
 
-                <p>Material <select id="material">
-                    <option>none</option>
-                    <option>bois1</option>
-                    <option>bois2</option>
-                </select></p>
-
-
             </li>
 
             <li data-content="new">
-                <p>New Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non a voluptatibus, ex odit totam cumque nihil eos asperiores ea, labore rerum. Doloribus tenetur quae impedit adipisci, laborum dolorum eaque ratione quaerat, eos dicta consequuntur atque ex facere voluptate cupiditate incidunt.</p>
-
+                <header><h1>Choisissez votre matériau</h1></header>
+                <p></p>
+                <div class="thumbnail">
+                    <img id="none" src="./textures/none.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                    <p>TEST</p>
+                </div>
+                <p></p>
+                <div class="thumbnail">
+                    <img id="bois1" src="./textures/bois1.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                    <p>Chene Massif</p>
+                </div>
+                <p></p>
+                <div class="thumbnail">
+                    <img id="bois2" src="./textures/bois2.jpg" class="portrait" alt="Image" onClick="selectedMaterial=this.id" />
+                    <p>Bois degueulasse</p>
+                </div>
             </li>
 
             <li data-content="gallery">
@@ -87,24 +95,16 @@
 
             </li>
 
-            <li data-content="settings">
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique ipsam eum reprehenderit minima at sapiente ad ipsum animi doloremque blanditiis unde omnis, velit molestiae voluptas placeat qui provident ab facilis.</p>
-            </li>
-
-            <li data-content="trash">
-                <p>Trash Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque a iure nostrum animi praesentium, numquam quidem, nemo, voluptatem, aspernatur incidunt. Fugiat aspernatur excepturi fugit aut, dicta reprehenderit temporibus, nobis harum consequuntur quo sed, illum.</p>
-
-
-            </li>
         </ul> <!-- cd-tabs-content -->
     </div> <!-- cd-tabs -->
 
+
+
+
     <div id="WebGLCanvas" class="webgl"></div>
 
+
 </div>
-
-
 
 
 <script>
@@ -123,6 +123,8 @@
     }
 </script>
 
+
+
 <script>
     var scene, camera;
 
@@ -133,6 +135,7 @@
     var L = 450;
     var l1 = document.querySelector('#l').value;
     var MAT = 'none';
+    var selectedMaterial = 'none';
     var canvasWidth = window.innerWidth;
     var wireframe = 1;
     var debug = 0;
@@ -147,8 +150,6 @@
     var tmp_rotation = 0;
 
     animateScene();
-
-
 
 
     function initializeScene(){
@@ -275,11 +276,12 @@
         else {
             tmp_debug = 0;
         }
-        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || $('select[id=material]').val() != MAT || window.innerWidth != canvasWidth || tmp_wireframe != wireframe || tmp_debug != debug){
+        console.log(selectedMaterial+MAT);
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || window.innerWidth != canvasWidth || tmp_wireframe != wireframe || tmp_debug != debug){
             H = document.querySelector('#H').value;
             L = document.querySelector('#Len').value;
             l = document.querySelector('#l').value;
-            MAT = $('select[id=material]').val();
+            MAT = selectedMaterial;
             canvasWidth = window.innerWidth;
             wireframe = tmp_wireframe;
             debug = tmp_debug;
