@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 Primary style
 
@@ -17,7 +17,7 @@ body {
   font-size: 100%;
   font-family: "PT Sans", sans-serif;
   color: black;
-  background-color: lightgray;
+  background-color: #E5DFDF;
 }
 
 a {
@@ -25,14 +25,11 @@ a {
   text-decoration: none;
 }
 
+/* --------------------------------
 
-
-/* -------------------------------- 
-
-Main components 
+Main components
 
 -------------------------------- */
-
 header {
 
   text-align: left;
@@ -56,37 +53,55 @@ header h1 {
   float: left;
 }
 
+.flex-content {
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: -moz-box;
+  display: flex;
+
+  -webkit-flex-flow: nowrap;
+  -moz-flex-flow: nowrap;
+  -ms-flex-flow: nowrap;
+  flex-flow: nowrap;
+
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  justify-content: flex-start;
+
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+
+
 .thumbnail {
   position: relative;
-  width: 65px;
-  height: 65px;
+  width: 60px;
+  height: 60px;
   overflow: visible;
   display: block;
+  margin-bottom: 25px;
+  margin-left: 5px;
 }
 
 .thumbnail:hover {
-  position: relative;
-  width: 90px;
-  height: 90px;
-  overflow: hidden;
-  margin-top: -10px;
-  margin-left: -10px;
+  overflow: visible;
+  background-position: top;
+  background-color: lightgrey;
+  opacity: 0.5;
 }
 
-.thumbnail:hover p{
-  display: block;
-  position: relative;
-  left: 83%;
-  top: 85%;
-  height: 100%;
-  width: auto;
-  -webkit-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-}
-
-.thumbnail p {
-  display:none
+.thumbnail-text {
+  text-align: center;
+  color: black;
+  overflow: visible;
+  margin-top: 100%;
+  font-size: 12px;
+  font-weight: 300;
 }
 
 
@@ -105,15 +120,37 @@ header h1 {
   height: auto;
 }
 
+.box-demo {
+  position: absolute;
+  background-color: #080808;
+  color: white;
+  opacity: 0.7;
+  float: left;
+  left
+  height: 50px;
+  margin: 10px 0px 0px 375px;
+  z-index: 10;
+}
+
+.box-mail {
+  position: absolute;
+  background-color: #ffffff;
+  float: left;
+  width: 350px;
+  height: 50px;
+  margin: 10px 0px 0px 15px;
+  box-shadow: rgba(0,0,0,0.2) 10px 10px 10px;
+  z-index: 10;
+}
 
 .cd-tabs {
-  position: absolute;
+  position: relative;
 }
 
 .left {
   float: left;
-  width: 400px;
-  margin: 1em 0em 0em 1em;
+  width: 350px;
+  margin: 70px 0px 0px 15px;
   z-index: 10;
   box-shadow: rgba(0,0,0,0.2) 10px 10px 10px;
 }

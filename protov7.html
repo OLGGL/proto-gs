@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +35,9 @@
 
 </head>
 <body>
-<div class="content">
-
+<div class="flex-content">
+    <div class="box-mail">Aweber Mail Form</div>
+    <div class="box-demo">Bienvenue dans la version de démonstration du configurateur Cust !</div>
     <div class="cd-tabs left">
         <nav>
             <ul class="cd-tabs-navigation">
@@ -45,6 +47,7 @@
                 <li><a data-content="store" href="#0">...</a></li>
             </ul> <!-- cd-tabs-navigation -->
         </nav>
+
 
         <ul class="cd-tabs-content">
             <li data-content="inbox" class="selected">
@@ -68,20 +71,40 @@
 
             <li data-content="new">
                 <header><h1>Choisissez votre matériau</h1></header>
-                <p></p>
-                <div class="thumbnail">
-                    <img id="none" src="./textures/none.jpg" alt="Image" onclick="selectedMaterial=this.id" />
-                    <p>TEST</p>
+                <div class="flex-content">
+                    <div class="thumbnail">
+                        <img id="none" src="./textures/none.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Aucun</div>
+                    </div>
+                    <div class="thumbnail">
+                        <img id="none" src="./textures/wireframe.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Aucun</div>
+                    </div>
                 </div>
-                <p></p>
-                <div class="thumbnail">
-                    <img id="bois1" src="./textures/bois1.jpg" alt="Image" onclick="selectedMaterial=this.id" />
-                    <p>Chene Massif</p>
+                <p>Bois massif</p>
+                <div class="flex-content">
+                    <div class="thumbnail">
+                        <img id="bois1" src="./textures/bois1.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Chene Massif</div>
+                    </div>
+                    <div class="thumbnail">
+                        <img id="bois2" src="./textures/bois2.jpg" class="portrait" alt="Image" onClick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Bois degueulasse</div>
+                    </div>
                 </div>
-                <p></p>
-                <div class="thumbnail">
-                    <img id="bois2" src="./textures/bois2.jpg" class="portrait" alt="Image" onClick="selectedMaterial=this.id" />
-                    <p>Bois degueulasse</p>
+                <p>Multiplis</p>
+                <div class="flex-content">
+                    <div class="thumbnail">
+                        <img id="bois1" src="./textures/bois1.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                        <p>Chene Massif</p>
+                    </div>
+                </div>
+                <p>Contreplaqué</p>
+                <div class="flex-content">
+                    <div class="thumbnail">
+                        <img id="bois2" src="./textures/bois2.jpg" class="portrait" alt="Image" onClick="selectedMaterial=this.id" />
+                        <p>Bois degueulasse</p>
+                    </div>
                 </div>
             </li>
 
@@ -136,7 +159,7 @@
     var l1 = document.querySelector('#l').value;
     var MAT = 'none';
     var selectedMaterial = 'none';
-    var canvasWidth = window.innerWidth;
+    var canvasWidth = window.innerWidth -365;
     var wireframe = 1;
     var debug = 0;
 
@@ -160,7 +183,7 @@
         }
 
         renderer.setClearColor(0xE5DFDF, 1);
-        canvasWidth =window.innerWidth;
+        canvasWidth =window.innerWidth-365;
         canvasHeight = window.innerHeight;
         renderer.setSize(canvasWidth, canvasHeight);
 
@@ -277,17 +300,17 @@
             tmp_debug = 0;
         }
         console.log(selectedMaterial+MAT);
-        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || window.innerWidth != canvasWidth || tmp_wireframe != wireframe || tmp_debug != debug){
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || (window.innerWidth -365) != canvasWidth || tmp_wireframe != wireframe || tmp_debug != debug){
             H = document.querySelector('#H').value;
             L = document.querySelector('#Len').value;
             l = document.querySelector('#l').value;
             MAT = selectedMaterial;
-            canvasWidth = window.innerWidth;
+            canvasWidth = window.innerWidth - 365;
             wireframe = tmp_wireframe;
             debug = tmp_debug;
             // responsivness
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
+            renderer.setSize(window.innerWidth -365, window.innerHeight);
+            camera.aspect = (window.innerWidth-365) / window.innerHeight;
             camera.updateProjectionMatrix();
             ModuleName = 'Stool'+String(L)+String(l)+String(H)+String(115);
             jQuery.getScript('./new_model/'+ModuleName+'.js')
