@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
     <link rel="stylesheet" href="css/control_bar.css"> <!-- Resource style -->
     <link rel="stylesheet" href="css/slider.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <script src="js/modernizr.js"></script> <!-- Modernizr -->
 
@@ -36,8 +37,38 @@
 </head>
 <body>
 <div class="flex-content">
-    <div class="box-mail">Aweber Mail Form</div>
-    <div class="box-demo">Bienvenue dans la version de démonstration du configurateur Cust !</div>
+    <div class="box-mail"><h1>RESTEZ INFORME</h1>
+        <form method="post" accept-charset="UTF-8" action="https://www.aweber.com/scripts/addlead.pl"  >
+            <div style="display: none;">
+                <input type="hidden" name="meta_web_form_id" value="120741816" />
+                <input type="hidden" name="meta_split_id" value="" />
+                <input type="hidden" name="listname" value="awlist3946672" />
+                <input type="hidden" name="redirect" value="" id="redirect_4af2ab570fa074b4eb0c96f627bb1211" />
+
+                <input type="hidden" name="meta_adtracking" value="Mail_form_Configurateur" />
+                <input type="hidden" name="meta_message" value="1001" />
+                <input type="hidden" name="meta_required" value="name,email" />
+
+                <input type="hidden" name="meta_tooltip" value="" />
+            </div>
+            <div id="af-form-120741816"><div id="af-body-120741816" class="af-body af-standards">
+                <div class="af-element">
+                    <label for="awf_field-74871028">Prénom </label><input id="awf_field-74871028" type="text" name="name" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
+                    <div></div></div>
+                <div class="af-element">
+                    <label class="previewLabel" for="awf_field-74871029">Email  </label>
+                    <div class="af-textWrap"><input class="text" id="awf_field-74871029" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
+                    </div><div></div>
+                </div>
+                <div class="af-element buttonContainer">
+                    <input name="submit" class="button" type="submit" value="S'inscrire" tabindex="502" />
+                    <div></div>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+
     <div class="cd-tabs left">
         <nav>
             <ul class="cd-tabs-navigation">
@@ -45,7 +76,7 @@
                 <li><a data-content="new" href="#0">Matériaux</a></li>
                 <li><a data-content="gallery" href="#0">Finitions</a></li>
                 <li><a data-content="store" href="#0">...</a></li>
-            </ul> <!-- cd-tabs-navigation -->
+            </ul>
         </nav>
 
 
@@ -61,12 +92,6 @@
                 <p style="float: left">Largeur  <p style="float: right"><output id="l">200</output> mm</p></p>
                 <input type="range" min="140" max="260" value="200" step="20" oninput="outputUpdate(value,l)">
 
-                <p><label for="c1">Wireframe</label> <input type="checkbox" id="c1" name="cc" checked/></p>
-
-                <p><input id="ResetView" type="button" value="Reset View" onclick="controls.reset()"/></p>
-
-                <p><label for="debug">Debug mode</label> <input type="checkbox" id="debug" name="cc2"/></p>
-
             </li>
 
             <li data-content="new">
@@ -77,8 +102,8 @@
                         <div class="thumbnail-text">Aucun</div>
                     </div>
                     <div class="thumbnail">
-                        <img id="none" src="./textures/wireframe.jpg" alt="Image" onclick="selectedMaterial=this.id" />
-                        <div class="thumbnail-text">Aucun</div>
+                        <img id="none" src="./textures/wireframe.jpg" alt="Image" onclick="tmp_wireframe = !tmp_wireframe" />
+                        <div class="thumbnail-text">Wireframe</div>
                     </div>
                 </div>
                 <p>Bois massif</p>
@@ -99,13 +124,6 @@
                         <p>Chene Massif</p>
                     </div>
                 </div>
-                <p>Contreplaqué</p>
-                <div class="flex-content">
-                    <div class="thumbnail">
-                        <img id="bois2" src="./textures/bois2.jpg" class="portrait" alt="Image" onClick="selectedMaterial=this.id" />
-                        <p>Bois degueulasse</p>
-                    </div>
-                </div>
             </li>
 
             <li data-content="gallery">
@@ -124,9 +142,14 @@
 
 
 
-    <div id="WebGLCanvas" class="webgl"></div>
-
-
+    <div id="WebGLCanvas" class="webgl">
+        <div class="box-demo">Bienvenue dans la version de démonstration du configurateur Cust !</div>
+        <div class="box-control">
+            <span class="fa fa-play-circle-o" style="border-bottom-left-radius: 5px; border-top-left-radius: 5px" onclick="boolRotation = true"></span>
+            <span class="fa fa-pause" onclick="boolRotation = false"></span>
+            <span class="fa fa-undo" style="border-bottom-right-radius: 5px; border-top-right-radius: 5px" onclick="resetView()"></span>
+        </div>
+    </div>
 </div>
 
 
@@ -160,7 +183,9 @@
     var MAT = 'none';
     var selectedMaterial = 'none';
     var canvasWidth = window.innerWidth -365;
-    var wireframe = 1;
+    var wireframe = true;
+    var tmp_wireframe = wireframe;
+    var boolRotation = false;
     var debug = 0;
 
     var basematerial = new THREE.MeshBasicMaterial( { color: 0x888888 } );
@@ -224,6 +249,18 @@
 //        setupGui();
     }
 
+    function resetView() {
+        controls.reset();
+        tmp_rotation = 0;
+        scene.traverse( function( node ) {
+            if (  node instanceof THREE.Line || node instanceof THREE.Mesh) {
+                node.rotation.z =tmp_rotation;
+            }
+        });
+    }
+
+
+
     function setupMesh(geometry, material){
         for (i = 0; i < geometry[0].length; i++){
             var m = new THREE.Mesh(geometry[0][i], material);
@@ -270,14 +307,14 @@
 
     function animateScene(){
 
-//        if (dim.rotation == "true"){
-//            scene.traverse( function( node ) {
-//                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
-//                    node.rotation.z += 0.01;
-//                    tmp_rotation = node.rotation.z;
-//                }
-//            } );
-//        }
+        if (boolRotation){
+            scene.traverse( function( node ) {
+                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                    node.rotation.z += 0.01;
+                    tmp_rotation = node.rotation.z;
+                }
+            } );
+        }
         requestAnimationFrame(animateScene);
         renderScene();
         controls.update();
@@ -287,27 +324,13 @@
     $.ajaxSetup({'cache':true});
 
     function renderScene(){
-        if ($('#c1').is(':checked')) {
-            tmp_wireframe = 1;
-        }
-        else {
-            tmp_wireframe = 0;
-        }
-        if ($('#debug').is(':checked')) {
-            tmp_debug = 1;
-        }
-        else {
-            tmp_debug = 0;
-        }
-        console.log(selectedMaterial+MAT);
-        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || (window.innerWidth -365) != canvasWidth || tmp_wireframe != wireframe || tmp_debug != debug){
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || (window.innerWidth -365) != canvasWidth || tmp_wireframe != wireframe){
             H = document.querySelector('#H').value;
             L = document.querySelector('#Len').value;
             l = document.querySelector('#l').value;
             MAT = selectedMaterial;
             canvasWidth = window.innerWidth - 365;
             wireframe = tmp_wireframe;
-            debug = tmp_debug;
             // responsivness
             renderer.setSize(window.innerWidth -365, window.innerHeight);
             camera.aspect = (window.innerWidth-365) / window.innerHeight;
@@ -326,7 +349,7 @@
                         geometry = tmpFunc_geom();
 
 
-                        if ($('#c1').is(':checked')) {
+                        if (wireframe) {
                             var codeToExecute_wires = "return "+ModuleName+'.wireframe()';
                             var tmpFunc_wires = new Function(codeToExecute_wires);
                             wire = tmpFunc_wires();
@@ -350,12 +373,6 @@
                                 node.rotation.z =tmp_rotation;
                             }
                         } );
-                        if ($('#debug').is(':checked')) {
-                            THREE.utils.enableDebug(scene );
-                        }
-                        else {
-                            THREE.utils.disableDebug(scene );
-                        }
                     })
                     .fail(function() {
                         /* boo, fall back to something else */

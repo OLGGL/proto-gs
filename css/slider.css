@@ -23,7 +23,7 @@ input[type=range]::-webkit-slider-thumb {
     height: 13px;
     width: 13px;
     border-radius: 50%;
-    background: #f05451;
+    background: #ff9a18;
     margin-top: -4px;
 }
 input[type=range]:focus {
@@ -45,7 +45,7 @@ input[type=range]::-moz-range-thumb {
     height: 13px;
     width: 13px;
     border-radius: 50%;
-    background: #f05451;
+    background: #ff9a18;
 }
 
 /*hide the outline behind the border*/

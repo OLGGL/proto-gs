@@ -1,5 +1,5 @@
-@import url(icons.css);
-
+@import url(http://weloveiconfonts.com/api/?family=entypo|fontawesome);
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 /* entypo */
 [class*="entypo-"]:before {
     font-family: 'entypo', sans-serif;
@@ -9,6 +9,8 @@
     font-family: 'FontAwesome', sans-serif;
 }
 
+
+
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -17,10 +19,10 @@
 
 h1 {
     font-family: sans-serif;
-    font-size: 16px;
-    font-weight: 800;
+    font-size: 27px;
+    font-weight: 900;
     color: #2e3641;
-    margin: 0 0 0 0;
+    margin: 0 0 10px 0;
 }
 h2 {
     font-family: sans-serif;
@@ -47,6 +49,7 @@ ul {
     margin: 0;
     padding: 0;
 }
+
 textarea {
     border-color: #dae4eb;
     color: #dae4eb;
@@ -106,7 +109,7 @@ input[type=checkbox]:checked + label:before {
     text-align: center;
 }
 .bar a {
-    color: ghostwhite;
+    color: #c1cfd9;
     -webkit-transition: background .2s ease-out;
     -moz-transition: background .2s ease-out;
     -o-transition: background .2s ease-out;
@@ -115,14 +118,8 @@ input[type=checkbox]:checked + label:before {
 }
 .bar a:hover {
     text-decoration: none;
-    background: orange;
+    background: #242B33;
 }
-
-.bar a:active {
-    text-decoration: none;
-    background: yellow;
-}
-
 .title-bar {
     height: 55px;
     text-align: left;
@@ -158,15 +155,14 @@ input[type=checkbox]:checked + label:before {
 }
 
 #main-container {
-    width: 100%;
-    height: 100%;
+    width: 1600px;
+    height: 1200px;
     background-color: #e9f0f4;
     margin: 0 auto;
-    padding-left: 15px;
-    padding-top: 40px;
+    padding: 80px;
 }
 #left-container {
-    width: 400px;
+    width: 570px;
     float: left;
 }
 #newPost {
@@ -174,13 +170,13 @@ input[type=checkbox]:checked + label:before {
     box-shadow: rgba(0,0,0,0.2) 10px 10px 10px;
 }
 .side {
-    width: 60px;
-    height: auto;
+    width: 90px;
+    height: 675px;
     float: left;
 }
 .side a {
     display: block;
-    line-height: 60px;
+    line-height: 90px;
     font-size: 22px;
 }
 #document {
@@ -192,10 +188,10 @@ input[type=checkbox]:checked + label:before {
 }
 
 .newPostContent {
-    width: 300px;
+    width: 480px;
     float: left;
-    padding-left: 20px;
-    padding-top: 20px;
+    padding-left: 40px;
+    padding-top: 70px;
 }
 #post-title {
     width: 400px;
@@ -536,9 +532,5 @@ input[type=checkbox]:checked + label:before {
     color: #f97e76;
     font-weight: 900;
     line-height: 200%;
-}
-
-.tabContent {
-    display:none;
 }
 
