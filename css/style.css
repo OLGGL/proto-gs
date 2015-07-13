@@ -336,11 +336,11 @@ input {
   position: absolute;
   top: 12px;
   left: 50%;
-  margin-left: -10px;
+  margin-left: -15px;
   display: inline-block;
-  height: 20px;
-  width: 20px;
-  background-image: url("../img/vicons.svg");
+  height: 30px;
+  width: 30px;
+  background-image: url("../img/cust_icons.svg");
   background-repeat: no-repeat;
 }
 .cd-tabs-navigation a[data-content='inbox']::before {
