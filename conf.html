@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:900|Orbitron:500' rel='stylesheet' type='text/css'>
+
+
+    <title>Cust Configurateur</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/three.min.js"></script>
+    <script src="./js/Detector.js"></script>
+    <script src="./js/CanvasRenderer.js"></script>
+    <script src="./js/Projector.js"></script>
+    <script src="./js/dat.gui.js"></script>
+    <script src="./js/TrackballControls.js"></script>
+    <script src="./js/debugger.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="css/control_bar.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="css/slider.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <script src="js/modernizr.js"></script> <!-- Modernizr -->
+
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/main.js"></script> <!-- Resource jQuery -->
+
+
+</head>
+<body>
+<div >
+    <div class="box-mail">
+        <h1>Restez informé</h1>
+        <form method="post" accept-charset="UTF-8" action="https://www.aweber.com/scripts/addlead.pl"  >
+            <div style="display: none;">
+                <input type="hidden" name="meta_web_form_id" value="120741816" />
+                <input type="hidden" name="meta_split_id" value="" />
+                <input type="hidden" name="listname" value="awlist3946672" />
+                <input type="hidden" name="redirect" value="" id="redirect_4af2ab570fa074b4eb0c96f627bb1211" />
+
+                <input type="hidden" name="meta_adtracking" value="Mail_form_Configurateur" />
+                <input type="hidden" name="meta_message" value="1001" />
+                <input type="hidden" name="meta_required" value="name,email" />
+
+                <input type="hidden" name="meta_tooltip" value="" />
+            </div>
+            <div id="af-form-120741816"><div id="af-body-120741816" class="af-body af-standards">
+                <div class="af-element">
+                    <label for="awf_field-74871028">Prénom </label><input id="awf_field-74871028" type="text" name="name" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
+                    <div></div></div>
+                <div class="af-element">
+                    <label for="awf_field-74871029">Email  </label>
+                    <div class="af-textWrap"><input class="text" id="awf_field-74871029" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
+                    </div><div></div>
+                </div>
+                <div class="af-element buttonContainer">
+                    <input name="submit" class="button" type="submit" value="S'inscrire" tabindex="502" />
+                    <div></div>
+                </div>
+                <div class="af-element">
+                    <label style="width:92%; font-weight: 100; text-justify: inter-word; text-align: justify" ><b style="font-weight: bold">Aucun spam.</b> Nous vous enverrons un email uniquement pour vous informer des avancées et du lancement de Cust.</label>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="cd-tabs left">
+        <nav>
+            <ul class="cd-tabs-navigation">
+
+                <li><a data-content="design" class="selected" href="#0">Design</a></li>
+                <li><a data-content="dim" href="#0">Dimensions</a></li>
+                <li><a data-content="mat" href="#0">Matériaux</a></li>
+                <li><a data-content="finition" href="#0">Finitions</a></li>
+            </ul>
+        </nav>
+
+
+        <ul class="cd-tabs-content">
+            <li data-content="design" class="selected">
+                <header><h1>Choisissez un design</h1></header>
+                <p>Tabouret</p>
+                <div class="thumbnail-design">
+                    <img src="./img/stool.jpg" alt=Image" onclick="design=0">
+                </div>
+                <p>Table</p>
+                <div class="thumbnail-design">
+                    <img src="./img/table.jpg" alt=Image" onclick="design=1">
+                </div>
+            </li>
+
+            <li data-content="dim">
+                <div id="dim_stool">
+                    <header><h1>Adaptez les dimensions</h1></header>
+                    <p style="float: left">Hauteur <p style="float: right"><output id="H">450</output> mm</p></p>
+                    <input type="range" min="350" max="550" value="450" step="50" oninput="outputUpdate(value,H)">
+
+                    <p style="float: left">Longueur <p style="float: right"><output id="Len">350</output> mm</p></p>
+                    <input type="range" min="250" max="450" value="350" step="50" oninput="outputUpdate(value,Len)">
+
+                    <p style="float: left">Largeur  <p style="float: right"><output id="l">200</output> mm</p></p>
+                    <input type="range" min="140" max="260" value="200" step="20" oninput="outputUpdate(value,l)">
+                </div>
+
+                <div id="dim_table">
+                    <header><h1>Choisissez les dimensions et adaptez le meuble à votre espace</h1></header>
+                    <p style="float: left">Hauteur <p style="float: right"><output id="Height_table">350</output> mm</p></p>
+                    <input type="range" min="150" max="750" value="350" step="100" oninput="outputUpdate(value,Height_table)">
+
+                    <p style="float: left">Longueur <p style="float: right"><output id="Length_table">350</output> mm</p></p>
+                    <input type="range" min="150" max="950" value="350" step="100" oninput="outputUpdate(value,Length_table)">
+
+                    <p style="float: left">Largeur  <p style="float: right"><output id="Width_table">350</output> mm</p></p>
+                    <input type="range" min="150" max="950" value="350" step="100" oninput="outputUpdate(value,Width_table)">
+                </div>
+
+            </li>
+
+            <li data-content="mat">
+                <header><h1>Choisissez votre matériau</h1></header>
+                <p>Vue modèle</p>
+                <div class="flex-content">
+                    <div class="thumbnail">
+                        <img id="none" src="./textures/none.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Aucun</div>
+                    </div>
+                    <div class="thumbnail">
+                        <img id="none" src="./textures/wireframe.jpg" alt="Image" onclick="tmp_wireframe = !tmp_wireframe" />
+                        <div class="thumbnail-text">Wireframe</div>
+                    </div>
+                </div>
+                <p>Bois massif</p>
+                <div class="flex-content">
+                    <div class="thumbnail">
+                        <img id="bois1" src="./textures/bois1.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Bois1</div>
+                    </div>
+                    <div class="thumbnail">
+                        <img id="bois2" src="./textures/bois2.jpg" class="portrait" alt="Image" onClick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Bois2</div>
+                    </div>
+                    <div class="thumbnail">
+                        <img id="bois3" src="./textures/bois3.jpg" alt="Image" onclick="selectedMaterial=this.id" />
+                        <div class="thumbnail-text">Bois3</div>
+                    </div>
+                </div>
+            </li>
+
+            <li data-content="finition">
+                <header><h1>Finitions : vous aurez ici la possibilité de choisir vos niveaux finitions : ponçage, congés sur arrête, vernissage, etc.
+                </h1></header>
+                <p>Non disponible dans la version de démonstration</p>
+            </li>
+
+
+        </ul> <!-- cd-tabs-content -->
+    </div> <!-- cd-tabs -->
+
+
+
+    <div id="WebGLCanvas" class="webgl">
+        <div class="box-demo">Version de démonstration du configurateur <span style="color:#FF9A18; font-size:26px; font-family: 'Orbitron', sans-serif;"><strong>cust</strong></span></div>
+        <div class="box-control">
+            <span class="fa fa-play-circle-o" style="border-bottom-left-radius: 5px; border-top-left-radius: 5px" onclick="boolRotation = true"></span>
+            <span class="fa fa-pause" onclick="boolRotation = false"></span>
+            <span class="fa fa-undo" style="border-bottom-right-radius: 5px; border-top-right-radius: 5px" onclick="resetView()"></span>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    function outputUpdate(value, dim) {
+        switch (dim){
+            case H:
+                document.querySelector('#H').value = value;
+                break;
+            case Len:
+                document.querySelector('#Len').value = value;
+                break;
+            case l:
+                document.querySelector('#l').value = value;
+                break;
+            case Height_table:
+                document.querySelector('#Height_table').value = value;
+                break;
+            case Length_table:
+                document.querySelector('#Length_table').value = value;
+                break;
+            case Width_table:
+                document.querySelector('#Width_table').value = value;
+                break;
+        }
+    }
+
+    function toggleDiv(design) {
+        if (design == 0) {
+            document.getElementById('dim_stool').style.display = 'block';
+            document.getElementById('dim_table').style.display = 'none';
+        }
+        if (design == 1) {
+            document.getElementById('dim_stool').style.display = 'none';
+            document.getElementById('dim_table').style.display = 'block';
+        }
+    }
+</script>
+
+
+
+<script>
+    var scene, camera;
+
+    initializeScene();
+
+
+    var H = document.querySelector('#H').value;
+    var L = 450;
+    var l1 = document.querySelector('#l').value;
+    var Ht = document.querySelector('#Height_table').value;
+    var Lt = 450;
+    var Wt = document.querySelector('#Width_table').value;
+    var MAT = 'none';
+    var selectedMaterial = 'none';
+    var canvasWidth = window.innerWidth -365;
+    var wireframe = true;
+    var tmp_wireframe = wireframe;
+    var boolRotation = false;
+    var debug = 0;
+    var design= 0; //0: stool 1: table
+    var tmp_design= design;
+
+    var basematerial = new THREE.MeshBasicMaterial( { color: 0x888888 } );
+    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
+    texture1.magFilter = THREE.LinearFilter;
+    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
+    var texture3 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois3.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
+
+
+    var tmp_rotation = 0;
+
+    toggleDiv(design);
+
+    animateScene();
+
+
+    function initializeScene(){
+        if(Detector.webgl){
+            renderer = new THREE.WebGLRenderer({antialias:true});
+        } else {
+            renderer = new THREE.CanvasRenderer();
+        }
+
+        renderer.setClearColor(0xE5DFDF, 1);
+        canvasWidth =window.innerWidth-365;
+        canvasHeight = window.innerHeight;
+        renderer.setSize(canvasWidth, canvasHeight);
+
+        document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
+        scene.add(camera);
+
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        controls.rotateSpeed = 2.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+        controls.keys = [ 65, 83, 68 ];
+        controls.position0.set(1400,350,950);
+        controls.target0.set(0, 20, 180);
+        controls.up0.set(0,0,1);
+        controls.reset();
+
+        var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
+        //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')})
+
+        // add subtle ambient lighting
+        var ambientLight = new THREE.AmbientLight(0xbbbbbb);
+        scene.add(ambientLight);
+
+        // directional lighting
+        var directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(500, 500, 500).normalize();
+        scene.add(directionalLight);
+
+
+//        setupGui();
+    }
+
+    function resetView() {
+        controls.reset();
+        if (design == 0){
+            tmp_rotation = 0;
+        }
+        else {
+            tmp_rotation = 1.15;
+        }
+        scene.traverse( function( node ) {
+            if (  node instanceof THREE.Line || node instanceof THREE.Mesh) {
+                node.rotation.z =tmp_rotation;
+            }
+        });
+    }
+
+
+
+    function setupMesh(geometry, material){
+        for (i = 0; i < geometry[0].length; i++){
+            var m = new THREE.Mesh(geometry[0][i], material);
+            scene.add (m);
+        }
+    }
+
+    function setupWire(wires){
+        for (i = 0; i < wires[0].length; i++){
+            var w = new THREE.Line(wires[0][i], new THREE.LineBasicMaterial( {color :0x000000, linewidth : 1}));
+            scene.add (w);
+        }
+    }
+
+    //    function setupGui() {
+    //        dim = {
+    //
+    //            l2 : 115,
+    //            rotation: "false",
+    //            ResetView : function(){controls.reset()}
+    //
+    //        };
+    //
+    //        var h;
+    //
+    //        var gui = new dat.GUI();
+    //
+    //        gui.add( dim, "rotation", ["true","false"]);
+    //        gui.add( dim, "ResetView");
+    //
+    //
+    //    }
+
+    function textureDef(str, basic, texture1, texture2, texture3){
+        switch(str){
+            case 'none':
+                return basic;
+            case 'bois1':
+                return texture1;
+            case 'bois2':
+                return texture2;
+            case 'bois3':
+                return texture3;
+        }
+    }
+
+    function animateScene(){
+
+        if (boolRotation){
+            scene.traverse( function( node ) {
+                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                    node.rotation.z += 0.01;
+                    tmp_rotation = node.rotation.z;
+                }
+            } );
+        }
+        requestAnimationFrame(animateScene);
+        renderScene();
+        controls.update();
+        console.log(tmp_rotation);
+
+    }
+
+    $.ajaxSetup({'cache':true});
+
+    function renderScene(){
+
+        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || (window.innerWidth -365) != canvasWidth || tmp_wireframe != wireframe || tmp_design != design || document.querySelector('#Height_table').value != Ht || document.querySelector('#Length_table').value != Lt || document.querySelector('#Width_table').value != Wt){
+            H = document.querySelector('#H').value;
+            L = document.querySelector('#Len').value;
+            l = document.querySelector('#l').value;
+            Ht = document.querySelector('#Height_table').value;
+            Lt = document.querySelector('#Length_table').value;
+            Wt = document.querySelector('#Width_table').value;
+            MAT = selectedMaterial;
+            toggleDiv(design);
+            tmp_design = design;
+            canvasWidth = window.innerWidth - 365;
+            wireframe = tmp_wireframe;
+            // responsivness
+            renderer.setSize(window.innerWidth -365, window.innerHeight);
+            camera.aspect = (window.innerWidth-365) / window.innerHeight;
+            camera.updateProjectionMatrix();
+            if (design == 0){
+                ModuleName = 'Stool'+String(L)+String(l)+String(H)+String(115);
+                controls.position0.set(1400,350,950);
+                controls.target0.set(0, 20, 180);
+                controls.up0.set(0,0,1);
+                controls.reset();
+                tmp_rotation = 0;
+            }
+            if (design == 1) {
+                ModuleName = 'Table'+String(Lt)+String(Wt)+String(Ht);
+                controls.position0.set(1400,0,550);
+                controls.target0.set(400, 0, 0);
+                controls.up0.set(0,0,1);
+                controls.reset();
+                tmp_rotation = 1.15;
+            }
+            jQuery.getScript('./new_model/'+ModuleName+'.js')
+                    .done(function() {
+                        remove = [];
+                        scene.traverse( function( node ) {
+                            if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                                remove.push(node);
+                            }
+                        } );
+                        var codeToExecute_geom = "return "+ModuleName+'.geom()';
+                        var tmpFunc_geom = new Function(codeToExecute_geom);
+                        geometry = tmpFunc_geom();
+
+
+                        if (wireframe) {
+                            var codeToExecute_wires = "return "+ModuleName+'.wireframe()';
+                            var tmpFunc_wires = new Function(codeToExecute_wires);
+                            wire = tmpFunc_wires();
+                            setupWire(wire);
+//                                        for (var i=0; i<remove.length; i++) {
+//                                            scene.remove(remove[i]);
+//                                        }
+                            scene.traverse( function( node ) {
+                                if (  node instanceof THREE.Line) {
+                                    node.rotation.z =tmp_rotation;
+                                }
+                            } );
+                        }
+
+                        setupMesh(geometry, textureDef(MAT, basematerial, texture1, texture2, texture3 ));
+                        for (var i=0; i<remove.length; i++) {
+                            scene.remove(remove[i]);
+                        }
+                        scene.traverse( function( node ) {
+                            if ( node instanceof THREE.Mesh ) {
+                                node.rotation.z =tmp_rotation;
+                            }
+                        } );
+                    })
+                    .fail(function() {
+                        /* boo, fall back to something else */
+                    });
+//            if ($('#c1').is(':checked')) {
+//                jQuery.getScript('./modelWireFrame/'+ModuleName+'.js')
+//                        .done(function() {
+//                            remove = [];
+//                            scene.traverse( function( node ) {
+//                                if (node instanceof THREE.Line) {
+//                                    remove.push(node);
+//                                }
+//                            } );
+//                            var codeToExecute = ModuleName+'.wireframe(scene)';
+//                            var tmpFunc = new Function(codeToExecute);
+//                            tmpFunc();
+//                            for (var i=0; i<remove.length; i++) {
+//                                scene.remove(remove[i]);
+//                            }
+//                            scene.traverse( function( node ) {
+//                                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+//                                    node.rotation.z =tmp_rotation;
+//                                }
+//                            } );
+//
+//                        })
+//                        .fail(function() {
+//                            /* boo, fall back to something else */
+//                        })
+//                }
+//            else {
+//                remove = [];
+//                scene.traverse( function( node ) {
+//                    if (node instanceof THREE.Line) {
+//                        remove.push(node);
+//                    }
+//                } );
+//                for (var i=0; i<remove.length; i++) {
+//                    scene.remove(remove[i]);
+//                }
+//            }
+        }
+        renderer.render(scene, camera);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="fr" prefix="fb: http://www.facebook.com/2008/fbml"> <!--<![endif]-->
+<head>
+
+    <title>
+        Votre navigateur n'est pas compatible.
+    </title>
+
+
+    <meta charset="utf-8">
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:900|Orbitron:500' rel='stylesheet' type='text/css'>
+
+
+
+    <style>
+        #carousel {
+            margin-top: 140px;
+        }
+
+        .carousel-control.left,.carousel-control.right {
+            background-image: none;
+        }
+
+        .carousel-control, .carousel-indicators, .carousel-indicators > li {
+            color: #555555!important;
+            border-color: #555555!important;
+        }
+
+        .carousel-caption {
+            margin-left: 40px;
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            bottom: auto;
+        }
+
+
+        .carousel-caption h2, .carousel-caption p, .carousel-caption li {
+            text-align: left;
+            color: #555555;
+            text-shadow: none;
+        }
+
+        .carousel-inner .item, .carousel-inner .item.active, {
+            margin-top: 130px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            top: -120px;
+            z-index: 5;
+        }
+
+        .carousel-indicators li, .carousel-indicators li.active {
+            margin: 20px;
+            width:  60px;
+            height: 60px;
+            border: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<div class="wrapper">
+
+    <div id="content">
+        <div style="color:#FF9A18; font-size:50px; font-family: 'Orbitron', sans-serif; margin-left:40px; margin-top: 12px;"><strong>cust</strong></div>
+        <div style="color:grey; font-size:13px; font-family: 'Orbitron', sans-serif; margin-left:40px; margin-top: -15px;"><strong>bespoke furniture</strong></div>
+
+        <div class="container">
+            <h1 style="margin-top: 40px; font-size: 30px; text-align: center;">Votre navigateur ne supporte pas la 3D. Que faire ?</h1>
+
+            <div id="carousel" class="carousel slide" data-interval=false>
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel" data-slide-to="0" class="active" style="position: relative; background-repeat:no-repeat; background-size:60px 60px; background-image:url('./img/chrome_logo.png');"></li>
+                    <li data-target="#carousel" data-slide-to="1" class="active" style="background-repeat:no-repeat; background-size:60px 60px; background-image:url('./img/firefox_logo.png');"></li>
+                    <li data-target="#carousel" data-slide-to="2" class="active" style="background-repeat:no-repeat; background-size:60px 60px; background-image:url('./img/safari_logo.png');"></li>
+                    <li data-target="#carousel" data-slide-to="3" class="active" style="background-repeat:no-repeat; background-size:60px 60px; background-image:url('./img/ie_logo.png');"></li>
+                    <li data-target="#carousel" data-slide-to="4" class="active" style="background-repeat:no-repeat; background-size:60px 60px; background-image:url('./img/opera_logo.png');"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <div class="col-md-3">
+                            <img src="./img/chrome_logo.png" alt="google chrome">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="carousel-caption">
+                                <h2 style="margin-bottom: 15px;">Google Chrome (Recommandé)</h2>
+                                <p>
+
+                                    Google Chrome supporte nativement la 3D (webGL) depuis la version 18.<br/>
+                                    Pour savoir quelle version de chrome vous utilisez, allez dans Menu -> A propos de Google Chrome.<br/>
+                                    Il est conseillé d'utiliser la version la plus récente, pour des raisons de performances.
+
+                                </p>
+
+                                <p>
+
+                                    Si vous êtes sous linux et que webGL n'est pas activé sur Google Chrome, essayez la méthode suivante:
+
+                                </p>
+                                <ul>
+                                    <li>Tapez "chrome://flags" dans la barre d'url</li>
+                                    <li>Choisissez l'option "Ignorer la liste de rendu logiciel"</li>
+                                    <li>Relancer Google chrome (assurez vous d'avoir tué tous les processus)</li>
+                                </ul>
+
+                                <p>
+
+                                    Vous pouvez également lancer Google Chrome avec l'option "--ignore-gpu-blacklist", si webGL n'est toujours pas activé.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="col-md-3">
+                            <img src="./img/firefox_logo.png" alt="mozilla firefox">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="carousel-caption">
+                                <h2 style="margin-bottom: 15px;">Mozilla Firefox</h2>
+                                <p>
+
+                                    Mozilla Firefox supporte nativement webGL depuis la version 4. Il est recommandé d'utiliser la version la plus à jour.
+
+                                </p>
+
+                                <p>
+
+                                    Si la dernière version de Firefox ne vous permet pas d'utiliser webGL, essayez la manipulation suivante :
+
+                                </p>
+                                <ul>
+                                    <li>Allez dans les options de Firefox</li>
+                                    <li>Allez dans l'option "Avancé", puis dans "Général"</li>
+                                    <li>Cocher l'option “Utiliser l'accelération matérielle si disponible”</li>
+                                    <li>Relancez Firefox</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="col-md-3">
+                            <img src="./img/safari_logo.png" alt="safari">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="carousel-caption">
+                                <h2 style="margin-bottom: 15px;">Safari</h2>
+                                <p>
+
+                                    Safari supporte la 3D par défaut depuis la version 8 (OS X Yosemite).<br/>Pensez à mettre à niveau votre Mac, la mise à jour est gratuite !
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="col-md-3">
+                            <img src="./img/ie_logo.png" alt="safari">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="carousel-caption">
+                                <h2 style="margin-bottom: 15px;">Internet Explorer</h2>
+                                <p>
+
+                                    Internet Explorer ne supporte pas encore suffisamment la 3D (webGL) pour faire fonctionner Cust, mais les ingénieurs de microsoft avancent à grand pas. Le support d'internet explorer sera intégré rapidement, en attendant, nous vous conseillons d'utiliser Google Chrome.
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="col-md-3">
+                            <img src="./img/opera_logo.png" alt="opera">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="carousel-caption">
+                                <h2 style="margin-bottom: 15px;">Opera</h2>
+                                <p>
+
+                                    Opera supporte la 3D (webGL) depuis la version 15, mais le manque du clic droit peut s'avérer génant sur certains outils.
+
+                                </p>
+
+                                <p>
+
+                                    Si la 3D ne fonctionne pas sur Opera, vous pouvez essayer la manipulation suivante:
+
+                                </p>
+                                <ul>
+                                    <li>Mettre la valeur "opera:config#Enable%20Hardware%20Acceleration" à 1</li>
+                                    <li>Mettre la valeur "opera:config#Enable%20WebGL" à 1</li>
+                                    <li>Relancez Opera</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<!-- load js libs at the end of the document (for speed) -->
+
+
+<script src="./js/jquery-1.11.1.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

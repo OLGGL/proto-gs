@@ -8,9 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:900|Orbitron:500' rel='stylesheet' type='text/css'>
 
 
-    <title>CustConf</title>
+    <title>Cust Configurateur</title>
     <meta charset="utf-8">
     <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
     <script src="./js/three.min.js"></script>
@@ -57,7 +58,7 @@
                     <label for="awf_field-74871028">Prénom </label><input id="awf_field-74871028" type="text" name="name" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
                     <div></div></div>
                 <div class="af-element">
-                    <label class="previewLabel" for="awf_field-74871029">Email  </label>
+                    <label for="awf_field-74871029">Email  </label>
                     <div class="af-textWrap"><input class="text" id="awf_field-74871029" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
                     </div><div></div>
                 </div>
@@ -65,6 +66,9 @@
                     <input name="submit" class="button" type="submit" value="S'inscrire" tabindex="502" />
                     <div></div>
                 </div>
+                <div class="af-element">
+                    <label style="width:92%; font-weight: 100; text-justify: inter-word; text-align: justify" ><b style="font-weight: bold">Aucun spam.</b> Nous vous enverrons un email uniquement pour vous informer des avancées et du lancement de Cust.</label>
+                    </div>
             </div>
             </div>
         </form>
@@ -85,11 +89,11 @@
         <ul class="cd-tabs-content">
             <li data-content="design" class="selected">
                 <header><h1>Choisissez un design</h1></header>
-                <p>Tabouret NOM1</p>
+                <p>Tabouret</p>
                 <div class="thumbnail-design">
                     <img src="./img/stool.jpg" alt=Image" onclick="design=0">
                 </div>
-                <p>Table NOM2</p>
+                <p>Table</p>
                 <div class="thumbnail-design">
                     <img src="./img/table.jpg" alt=Image" onclick="design=1">
                 </div>
@@ -167,7 +171,7 @@
 
 
     <div id="WebGLCanvas" class="webgl">
-        <div class="box-demo">Bienvenue dans la version de démonstration du configurateur Cust !</div>
+        <div class="box-demo">Version de démonstration du configurateur <span style="color:#FF9A18; font-size:26px; font-family: 'Orbitron', sans-serif;"><strong>cust</strong></span></div>
         <div class="box-control">
             <span class="fa fa-play-circle-o" style="border-bottom-left-radius: 5px; border-top-left-radius: 5px" onclick="boolRotation = true"></span>
             <span class="fa fa-pause" onclick="boolRotation = false"></span>
