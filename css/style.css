@@ -14,6 +14,7 @@ Primary style
 }
 
 body {
+  display:none;
   font-size: 100%;
   font-family: "PT Sans", sans-serif;
   color: black;

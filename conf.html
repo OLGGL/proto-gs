@@ -54,12 +54,6 @@
 
 
     <div class="my_popup_open"></div>
-    <script>
-        if (window.location.href.indexOf("registered") > -1) {
-            $('#my_popup').popup('hide');
-        }
-
-    </script>
 
     <div id="my_popup" class="overlay">
         Bienvenue dans la version de démonstration du configurateur Cust
@@ -108,11 +102,13 @@
                     autoopen: true,
                     blur: false
                 });
+                $('body').show();
             }
             else {
                 $('#my_popup').popup({
                     autoopen: false
                 });
+                $('body').show();
             }
 
         });
