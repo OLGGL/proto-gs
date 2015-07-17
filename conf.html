@@ -11,6 +11,8 @@
     <link rel="icon" type="image/x-icon" href="http://conf.cust.cc/pic/favicon2.ico" />
 
 
+
+
     <title>Cust Configurateur</title>
     <meta charset="utf-8">
     <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
@@ -32,6 +34,8 @@
     <script src="js/jquery-2.1.1.js"></script>
     <script src="js/main.js"></script> <!-- Resource jQuery -->
 
+    <script src="./overlay/jquery.popupoverlay.js"></script>
+
     <!--Google Analytics-->
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -47,14 +51,25 @@
 </head>
 <body>
 <div >
-    <div class="box-mail">
-        <h1>Restez informé</h1>
-        <form method="post" accept-charset="UTF-8" action="https://www.aweber.com/scripts/addlead.pl"  >
+
+
+    <div class="my_popup_open"></div>
+    <script>
+        if (window.location.href.indexOf("registered") > -1) {
+            $('#my_popup').popup('hide');
+        }
+
+    </script>
+
+    <div id="my_popup" class="overlay">
+        Bienvenue dans la version de démonstration du configurateur Cust
+
+        <form method="post" class="af-form-wrapper" accept-charset="UTF-8" action="https://www.aweber.com/scripts/addlead.pl"  >
             <div style="display: none;">
                 <input type="hidden" name="meta_web_form_id" value="120741816" />
                 <input type="hidden" name="meta_split_id" value="" />
                 <input type="hidden" name="listname" value="awlist3946672" />
-                <input type="hidden" name="redirect" value="" id="redirect_4af2ab570fa074b4eb0c96f627bb1211" />
+                <input type="hidden" name="redirect" value="http://conf.cust.cc/conf.html?registered" id="redirect_a3a2dea529ae86249cabadc49b6ea3e6" />
 
                 <input type="hidden" name="meta_adtracking" value="Mail_form_Configurateur" />
                 <input type="hidden" name="meta_message" value="1001" />
@@ -62,18 +77,77 @@
 
                 <input type="hidden" name="meta_tooltip" value="" />
             </div>
-            <div id="af-form-120741816"><div id="af-body-120741816" class="af-body af-standards">
+            <div id="af-form-120741816" class="af-form"><div id="af-body-120741816" class="af-body af-standards">
                 <div class="af-element">
-                    <label for="awf_field-74871028">Prénom </label><input id="awf_field-74871028" type="text" name="name" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
-                    <div></div></div>
+                    <label class="previewLabel" for="awf_field-75024299">Prénom </label>
+                    <div class="af-textWrap">
+                        <input id="awf_field-75024299" type="text" name="name" class="text" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
+                    </div>
+                    <div class="af-clear"></div></div>
                 <div class="af-element">
-                    <label for="awf_field-74871029">Email  </label>
-                    <div class="af-textWrap"><input class="text" id="awf_field-74871029" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
-                    </div><div></div>
+                    <label class="previewLabel" for="awf_field-75024300">Email </label>
+                    <div class="af-textWrap"><input class="text" id="awf_field-75024300" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
+                    </div><div class="af-clear"></div>
                 </div>
-                <div class="af-element buttonContainer">
-                    <input name="submit" class="button" type="submit" value="S'inscrire" tabindex="502" />
-                    <div></div>
+                <div>
+                    <input name="submit" class="submit button" type="submit" value="S'inscrire" tabindex="502" />
+                    <div class="af-clear"></div>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize the plugin
+            if (window.location.href.indexOf("registered") == -1) {
+                $('#my_popup').popup({
+                    autoopen: true,
+                    blur: false
+                });
+            }
+            else {
+                $('#my_popup').popup({
+                    autoopen: false
+                });
+            }
+
+        });
+    </script>
+
+    <div class="box-mail">
+        <h1>Restez informé</h1>
+        <form method="post" class="af-form-wrapper" accept-charset="UTF-8" action="https://www.aweber.com/scripts/addlead.pl"  >
+            <div style="display: none;">
+                <input type="hidden" name="meta_web_form_id" value="120741816" />
+                <input type="hidden" name="meta_split_id" value="" />
+                <input type="hidden" name="listname" value="awlist3946672" />
+                <input type="hidden" name="redirect" value="http://conf.cust.cc/conf.html?registered" id="redirect_a3a2dea529ae86249cabadc49b6ea3e6" />
+
+                <input type="hidden" name="meta_adtracking" value="Mail_form_Configurateur" />
+                <input type="hidden" name="meta_message" value="1001" />
+                <input type="hidden" name="meta_required" value="name,email" />
+
+                <input type="hidden" name="meta_tooltip" value="" />
+            </div>
+            <div id="af-form-120741816" class="af-form"><div id="af-body-120741816" class="af-body af-standards">
+                <div class="af-element">
+                    <label class="previewLabel" for="awf_field-75024299">Prénom </label>
+                    <div class="af-textWrap">
+                        <input id="awf_field-75024299" type="text" name="name" class="text" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
+                    </div>
+                    <div class="af-clear"></div></div>
+                <div class="af-element">
+                    <label class="previewLabel" for="awf_field-75024300">Email </label>
+                    <div class="af-textWrap"><input class="text" id="awf_field-75024300" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
+                    </div><div class="af-clear"></div>
+                </div>
+                <div>
+                    <input name="submit" class="submit button" type="submit" value="S'inscrire" tabindex="502" />
+                    <div class="af-clear"></div>
                 </div>
                 <div class="af-element">
                     <label style="width:92%; font-weight: 100; text-justify: inter-word; text-align: justify" ><b style="font-weight: bold">Aucun spam.</b> Nous vous enverrons un email uniquement pour vous informer des avancées et du lancement de Cust.</label>
