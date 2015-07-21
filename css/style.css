@@ -59,21 +59,20 @@ header h1 {
   color:#FFFFFF;
   padding-left: 20%;
   padding-right: 20%;
-
 }
 
 .overlay h1{
   color:#FFFFFF;
   text-align: center;
   font-size:24px;
-  padding-top: 40px;
-  padding-bottom: 30px;
+  padding-top: 60px;
+  padding-bottom: 40px;
 }
 
 .overlay p{
   color:#FFFFFF;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
   font-weight: 100;
 }
 
@@ -272,9 +271,13 @@ textarea:focus, input:focus {
   background-color: #ffffff;
   float: left;
   width: 350px;
-  height: 173px;
+  height: 140px;
   margin: 10px 0px 0px 15px;
-  box-shadow: rgba(0,0,0,0.2) 10px 10px 10px;
+  -moz-box-shadow: 7px 7px 20px 2px #9b9b9b;
+  -webkit-box-shadow: 7px 7px 20px 2px #9b9b9b;
+  -o-box-shadow: 7px 7px 20px 2px #9b9b9b;
+  box-shadow: 7px 7px 20px 2px #9b9b9b;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=20);
   z-index: 10;
 
 }
@@ -284,7 +287,7 @@ textarea:focus, input:focus {
     border-bottom-color: #ff9a18;
     border-bottom-width: 4px;
     margin: 10px 15px 12px 15px;
-    padding-bottom: 6px;
+    padding-bottom: 0px;
     color: #414345;
     font-size: 15px;
     font-weight: bold;
@@ -293,20 +296,18 @@ textarea:focus, input:focus {
   }
 
 .af-form-overlay {
-  text-align: center;
+  text-align: left;
 
 }
 
 .af-form-overlay label {
-
 }
 
 .af-form-overlay input {
-  display: block;
+  float: left;
   border-radius: 4px;
-  margin-left: auto;
-  margin-right: auto;
   margin-bottom: 10px;
+  margin-right: 10px;
   width: 250px;
   height: 35px;
 }
@@ -332,7 +333,6 @@ textarea:focus, input:focus {
 
 .button {
   width: 110px;
-  margin-left: 10px;
   background-color: #00d100;
   font-size: 13px;
   border: none;
@@ -355,7 +355,11 @@ textarea:focus, input:focus {
   width: 350px;
   margin: 205px 0px 0px 15px;
   z-index: 10;
-  box-shadow: rgba(0,0,0,0.2) 10px 10px 10px;
+  -moz-box-shadow: 7px 7px 20px 2px #9b9b9b;
+  -webkit-box-shadow: 7px 7px 20px 2px #9b9b9b;
+  -o-box-shadow: 7px 7px 20px 2px #9b9b9b;
+  box-shadow: 7px 7px 20px 2px #9b9b9b;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=#9b9b9b, Direction=135, Strength=20);
 }
 
 
