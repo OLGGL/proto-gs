@@ -53,64 +53,108 @@
 <div >
 
 
-    <div class="my_popup_open"></div>
 
-    <div id="my_popup" class="overlay">
-        Bienvenue dans la version de démonstration du configurateur Cust
+    <!--popup to manage aweber forms-->
+
+    <div id="my_popup" class="overlay" >
+        <div style="color:#FF9A18; font-size:45px; font-family: 'Orbitron', sans-serif; margin-top:50px; text-align: center;"><strong>cust</strong></div>
+        <h1>Bienvenue dans la version de démonstration du configurateur </h1>
+        <p>Notre configurateur est en cours de développement...Les possibilités proposées sont encore limitées et ont surtout une vocation illustrative.</p>
+        <p>
+        Grâce à votre participation, nous  serons en mesure de vous proposer bientôt un large choix de designs de meubles et une optimisation des paramètres de personnalisation.</p>
+
+        <!-- AWeber Web Form Generator 3.0.1 -->
 
         <form method="post" class="af-form-wrapper" accept-charset="UTF-8" action="https://www.aweber.com/scripts/addlead.pl"  >
             <div style="display: none;">
                 <input type="hidden" name="meta_web_form_id" value="120741816" />
                 <input type="hidden" name="meta_split_id" value="" />
                 <input type="hidden" name="listname" value="awlist3946672" />
-                <input type="hidden" name="redirect" value="http://conf.cust.cc/conf.html?registered" id="redirect_a3a2dea529ae86249cabadc49b6ea3e6" />
-
+                <input type="hidden" name="redirect" value="http://conf.cust.cc/conf.html?registered" id="redirect_fb84e9c526cb0a48ec043a5fe2486e1c" />
+                <input type="hidden" name="meta_redirect_onlist" value="http://conf.cust.cc/conf.html?already" />
                 <input type="hidden" name="meta_adtracking" value="Mail_form_Configurateur" />
                 <input type="hidden" name="meta_message" value="1001" />
-                <input type="hidden" name="meta_required" value="name,email" />
-
-                <input type="hidden" name="meta_tooltip" value="" />
+                <input type="hidden" name="meta_required" value="email" />
+                <input type="hidden" name="meta_tooltip" value="email||Votre adresse email..." />
             </div>
-            <div id="af-form-120741816" class="af-form"><div id="af-body-120741816" class="af-body af-standards">
+            <div id="af-form-120741816" class="af-form-overlay"><div id="af-body-120741816" class="af-body af-standards">
                 <div class="af-element">
-                    <label class="previewLabel" for="awf_field-75024299">Prénom </label>
-                    <div class="af-textWrap">
-                        <input id="awf_field-75024299" type="text" name="name" class="text" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
-                    </div>
-                    <div class="af-clear"></div></div>
-                <div class="af-element">
-                    <label class="previewLabel" for="awf_field-75024300">Email </label>
-                    <div class="af-textWrap"><input class="text" id="awf_field-75024300" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
+                    <label class="previewLabel" for="awf_field-75064303"> </label>
+                    <div class="af-textWrap"><input class="text" id="awf_field-75064303" type="text" name="email" value="Entrez votre adresse email..." tabindex="500" onfocus=" if (this.value == 'Entrez votre adresse email...') { this.value = ''; }" onblur="if (this.value == '') { this.value='Entrez votre adresse email...';} " />
                     </div><div class="af-clear"></div>
                 </div>
-                <div>
-                    <input name="submit" class="submit button" type="submit" value="S'inscrire" tabindex="502" />
+                <div class="af-element buttonContainer">
+                    <input name="submit" class="submit button" type="submit" value="Accès privilégié au configurateur" tabindex="501" />
+                    <div class="af-clear"></div>
+                </div>
+                <div class="af-element poweredBy" style="text-align: center; font-size: 9px;"><p></p>
                     <div class="af-clear"></div>
                 </div>
             </div>
+                <div id="af-footer-120741816" class="af-footer"><div class="bodyText"><p>&nbsp;</p></div></div>
             </div>
         </form>
+
+        <!-- Cross to close popup -->
+        <span class="my_popup_close fa fa-times cross"></span>
+
     </div>
 
+    <div id="my_popup_thanks" class="overlay">
+        <h1 style="margin-top: 50%">Merci de votre participation!</h1>
+        <p>Cliquez n'importe où pour continuer...</p>
+    </div>
 
+    <div id="my_popup_already" class="overlay">
+        <h1 style="margin-top: 50%">Vous êtes déjà enregistré!</h1>
+        <p>Cliquez n'importe où pour continuer...</p>
+    </div>
+
+    <!--script to enable/disable popup depending on URL-->
 
     <script>
         $(document).ready(function() {
             // Initialize the plugin
-            if (window.location.href.indexOf("registered") == -1) {
-                $('#my_popup').popup({
-                    autoopen: true,
-                    blur: false
-                });
-                $('body').show();
-            }
-            else {
+            if (window.location.href.indexOf("already") != -1 ) {
                 $('#my_popup').popup({
                     autoopen: false
                 });
-                $('body').show();
+                $('#my_popup_thanks').popup({
+                    autoopen: false
+                });
+                $('#my_popup_already').popup({
+                    autoopen: true,
+                    vertical: 'top',
+                    opacity: 0.85
+                });
             }
-
+            else if (window.location.href.indexOf("registered") != -1 ) {
+                $('#my_popup').popup({
+                    autoopen: false
+                });
+                $('#my_popup_thanks').popup({
+                    autoopen: true,
+                    vertical: 'top',
+                    opacity: 0.85
+                });
+                $('#my_popup_already').popup({
+                    autoopen: false
+                });
+            }
+            else {
+                $('#my_popup').popup({
+                    autoopen: true,
+                    blur: false,
+                    vertical: 'top',
+                    opacity: 0.85
+                });
+                $('#my_popup_thanks').popup({
+                    autoopen: false
+                });
+                $('#my_popup_already').popup({
+                    autoopen: false
+                });
+            }
         });
     </script>
 
@@ -118,37 +162,22 @@
         <h1>Restez informé</h1>
         <form method="post" class="af-form-wrapper" accept-charset="UTF-8" action="https://www.aweber.com/scripts/addlead.pl"  >
             <div style="display: none;">
-                <input type="hidden" name="meta_web_form_id" value="120741816" />
+                <input type="hidden" name="meta_web_form_id" value="1693243254" />
                 <input type="hidden" name="meta_split_id" value="" />
                 <input type="hidden" name="listname" value="awlist3946672" />
-                <input type="hidden" name="redirect" value="http://conf.cust.cc/conf.html?registered" id="redirect_a3a2dea529ae86249cabadc49b6ea3e6" />
-
+                <input type="hidden" name="redirect" value="http://conf.cust.cc/conf.html?registered" id="redirect_9fc128a06f139f93ac5de12c7fc87840" />
+                <input type="hidden" name="meta_redirect_onlist" value="http://conf.cust.cc/conf.html?already" />
                 <input type="hidden" name="meta_adtracking" value="Mail_form_Configurateur" />
                 <input type="hidden" name="meta_message" value="1001" />
-                <input type="hidden" name="meta_required" value="name,email" />
+                <input type="hidden" name="meta_required" value="email" />
 
                 <input type="hidden" name="meta_tooltip" value="" />
             </div>
-            <div id="af-form-120741816" class="af-form"><div id="af-body-120741816" class="af-body af-standards">
-                <div class="af-element">
-                    <label class="previewLabel" for="awf_field-75024299">Prénom </label>
-                    <div class="af-textWrap">
-                        <input id="awf_field-75024299" type="text" name="name" class="text" value=""  onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " tabindex="500" />
-                    </div>
-                    <div class="af-clear"></div></div>
-                <div class="af-element">
-                    <label class="previewLabel" for="awf_field-75024300">Email </label>
-                    <div class="af-textWrap"><input class="text" id="awf_field-75024300" type="text" name="email" value="" tabindex="501" onfocus=" if (this.value == '') { this.value = ''; }" onblur="if (this.value == '') { this.value='';} " />
-                    </div><div class="af-clear"></div>
-                </div>
-                <div>
-                    <input name="submit" class="submit button" type="submit" value="S'inscrire" tabindex="502" />
-                    <div class="af-clear"></div>
-                </div>
-                <div class="af-element">
-                    <label style="width:92%; font-weight: 100; text-justify: inter-word; text-align: justify" ><b style="font-weight: bold">Aucun spam.</b> Nous vous enverrons un email uniquement pour vous informer des avancées et du lancement de Cust.</label>
-                </div>
-            </div>
+            <div id="af-form-1693243254" class="af-form-body">
+                <label for="awf_field-75064251"> </label>
+                <input id="awf_field-75064251" type="text" name="email" value="Entrez votre adresse email..." tabindex="500" onfocus=" if (this.value == 'Entrez votre adresse email...') { this.value = ''; }" onblur="if (this.value == '') { this.value='Entrez votre adresse email...';} " />
+                <input name="submit" class="submit button" type="submit" value="Recevoir les offres de lancement" tabindex="501" />
+                <label style="margin-left: 15px; margin-right: 12px;"><b style="font-weight: bold">Aucun spam.</b> Nous vous enverrons un email uniquement pour vous informer des avancées et du lancement de Cust.</label>
             </div>
         </form>
     </div>
@@ -354,7 +383,7 @@
             renderer = new THREE.CanvasRenderer();
         }
 
-        renderer.setClearColor(0xE5DFDF, 1);
+        renderer.setClearColor(0xFFFFFF, 1);
         canvasWidth =window.innerWidth-365;
         canvasHeight = window.innerHeight;
         renderer.setSize(canvasWidth, canvasHeight);
@@ -472,8 +501,6 @@
         requestAnimationFrame(animateScene);
         renderScene();
         controls.update();
-        console.log(tmp_rotation);
-
     }
 
     $.ajaxSetup({'cache':true});

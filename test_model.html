@@ -29,12 +29,17 @@
     <link rel="stylesheet" href="css/slider.css"> <!-- Resource style -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
+
     <script src="js/modernizr.js"></script> <!-- Modernizr -->
 
     <script src="js/jquery-2.1.1.js"></script>
     <script src="js/main.js"></script> <!-- Resource jQuery -->
 
     <script src="./overlay/jquery.popupoverlay.js"></script>
+
+    <script src="./test_banc/Banc300010001000.js"></script>
+    <script src="./test_banc/Banc1000500500.js"></script>
+    <script src="./test_banc/Banc100010001000.js"></script>
 
     <!--Google Analytics-->
     <script>
@@ -55,6 +60,9 @@
 
 
     <!--popup to manage aweber forms-->
+
+
+    <!--script to enable/disable popup depending on URL-->
 
 
 
@@ -237,21 +245,12 @@
     var tmp_design= design;
 
     var basematerial = new THREE.MeshBasicMaterial( { color: 0x888888 } );
-    var texture1 = new THREE.MeshPhongMaterial( {
-        map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg'),
-        wrapAround: true,
-        wrapRGB: new THREE.Vector3(0.8, 0.8, 0.8)
-    });
-
-
-    var texture2 = new THREE.MeshLambertMaterial( {
-        map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg'),
-        wrapAround: true,
-        wrapRGB: new THREE.Vector3(0.8, 0.8, 0.8)
-    });
-
+    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
+    texture1.magFilter = THREE.LinearFilter;
+    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
     var texture3 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois3.jpg')});
-
+    texture2.magFilter = THREE.LinearFilter;
 
 
     var tmp_rotation = 0;
@@ -268,7 +267,7 @@
             renderer = new THREE.CanvasRenderer();
         }
 
-        renderer.setClearColor(0xE5DFDF, 1);
+        renderer.setClearColor(0xFFFFFF, 1);
         canvasWidth =window.innerWidth-365;
         canvasHeight = window.innerHeight;
         renderer.setSize(canvasWidth, canvasHeight);
@@ -294,27 +293,20 @@
         controls.up0.set(0,0,1);
         controls.reset();
 
-        var groundPlane = new THREE.PlaneGeometry(1500, 1500);
-        var groundMat = new THREE.MeshBasicMaterial({ color: 0x888888 });
-        groundMat.opacity = 0.1;
-        ground = new THREE.Mesh(groundPlane, groundMat);
-        scene.add(ground);
-
         var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
         //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')})
 
         // add subtle ambient lighting
-        //var ambientLight = new THREE.AmbientLight(0xcacaca);
-        //scene.add(ambientLight);
+        var ambientLight = new THREE.AmbientLight(0xbbbbbb);
+        scene.add(ambientLight);
 
         // directional lighting
-        var pointLight = new THREE.PointLight(0xffffff, 3, 1200);
-        pointLight.position.set(200, 0, 700);
-        scene.add(pointLight);
+        var directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(500, 500, 500).normalize();
+        scene.add(directionalLight);
 
-
-
-
+        setupMesh(Banc1000500500.geom(), basematerial);
+        setupWire(Banc1000500500.wireframe());
 //        setupGui();
     }
 
@@ -399,8 +391,8 @@
     $.ajaxSetup({'cache':true});
 
     function renderScene(){
-
-        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || (window.innerWidth -365) != canvasWidth || tmp_wireframe != wireframe || tmp_design != design || document.querySelector('#Height_table').value != Ht || document.querySelector('#Length_table').value != Lt || document.querySelector('#Width_table').value != Wt){
+        if (false) {
+       // if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || (window.innerWidth -365) != canvasWidth || tmp_wireframe != wireframe || tmp_design != design || document.querySelector('#Height_table').value != Ht || document.querySelector('#Length_table').value != Lt || document.querySelector('#Width_table').value != Wt){
             H = document.querySelector('#H').value;
             L = document.querySelector('#Len').value;
             l = document.querySelector('#l').value;
@@ -464,7 +456,6 @@
                         for (var i=0; i<remove.length; i++) {
                             scene.remove(remove[i]);
                         }
-                        scene.add(ground);
                         scene.traverse( function( node ) {
                             if ( node instanceof THREE.Mesh ) {
                                 node.rotation.z =tmp_rotation;

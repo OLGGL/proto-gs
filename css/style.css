@@ -14,11 +14,14 @@ Primary style
 }
 
 body {
-  display:none;
   font-size: 100%;
   font-family: "PT Sans", sans-serif;
   color: black;
-  background-color: #E5DFDF;
+  background-color: white;
+}
+
+#conf {
+  display:none;
 }
 
 a {
@@ -54,11 +57,47 @@ header h1 {
 
 .overlay {
   color:#FFFFFF;
-
+  padding-left: 20%;
+  padding-right: 20%;
 
 }
 
+.overlay h1{
+  color:#FFFFFF;
+  text-align: center;
+  font-size:24px;
+  padding-top: 40px;
+  padding-bottom: 30px;
+}
 
+.overlay p{
+  color:#FFFFFF;
+  text-align: left;
+  margin-bottom: 20px;
+  font-weight: 100;
+}
+
+.cross {
+  cursor: pointer;
+  cursor: hand;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 15px;
+  margin-right: 25px;
+  color: #bcbcbc;
+}
+
+.cross:hover {
+  color: white;
+}
+
+input, select, textarea{
+  color: #a19f9d;
+}
+
+textarea:focus, input:focus {
+  color: #000000;
 }
 
 .contenair {
@@ -244,9 +283,7 @@ header h1 {
     border-bottom: 2px solid;
     border-bottom-color: #ff9a18;
     border-bottom-width: 4px;
-    margin-left: 5px;
-    margin-right: 10px;
-    margin-top: 8px;
+    margin: 10px 15px 12px 15px;
     padding-bottom: 6px;
     color: #414345;
     font-size: 15px;
@@ -255,26 +292,42 @@ header h1 {
 
   }
 
-label{
-  display: inline-block;
-  float: left;
-  clear: left;
-  width: 60px;
-  text-align: left;
-  margin-top: 13px;
-  padding-bottom: 10px;
-  margin-left: 10px;
-  color: #414345;
-  font-size: 14px;
-  font-weight: bold;
+.af-form-overlay {
+  text-align: center;
+
 }
-input {
-  display: inline-block;
-  float: left;
-  margin-top: 10px;
-  border-radius: 3px;
-  width: 150px;
-  height: 22px;
+
+.af-form-overlay label {
+
+}
+
+.af-form-overlay input {
+  display: block;
+  border-radius: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  width: 250px;
+  height: 35px;
+}
+
+.af-form-body {
+  text-align: left;
+}
+
+.af-form-body label {
+  font-size: 12px;
+  display: block;
+}
+
+.af-form-body input {
+  display: block;
+  border-radius: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 9px;
+  width: 320px;
+  height: 35px;
 }
 
 .button {
@@ -283,7 +336,9 @@ input {
   background-color: #00d100;
   font-size: 13px;
   border: none;
-  color: white
+  color: white;
+  cursor: pointer;
+  cursor: hand;
 }
 
   .button:hover {
