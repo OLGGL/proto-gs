@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:900|Orbitron:500' rel='stylesheet' type='text/css'>
+    <link rel="icon" type="image/x-icon" href="http://conf.cust.cc/pic/favicon2.ico" />
+
+
+
+
+    <title>Cust Configurateur</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+    <script src="//conf.cust.cc/js/three.min.js"></script>
+    <script src="//conf.cust.cc/js/Detector.js"></script>
+    <script src="//conf.cust.cc/js/CanvasRenderer.js"></script>
+    <script src="//conf.cust.cc/js/Projector.js"></script>
+    <script src="//conf.cust.cc/js/TrackballControls.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="//conf.cust.cc/css/reset.css"> <!-- CSS reset -->
+    <link rel="stylesheet" href="//conf.cust.cc/css/style.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="//conf.cust.cc/css/control_bar.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="//conf.cust.cc/css/slider.css"> <!-- Resource style -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <script src="//conf.cust.cc/js/modernizr.js"></script> <!-- Modernizr -->
+
+    <script src="//conf.cust.cc/js/jquery-2.1.1.js"></script>
+    <script src="//conf.cust.cc/js/main.js"></script> <!-- Resource jQuery -->
+
+    <script src="//conf.cust.cc/js/jquery.popupoverlay.js"></script>
+
+
+</head>
+<body>
+
+<!--popup to manage aweber forms-->
+
+
+<div class="box-demo">
+    <div style="line-height: 38px; float: left; position:absolute; left:50%; margin-left:-80px">Model Test Version </div>
+
+</div>
+<div >
+
+
+
+    <div class="cd-tabs left" style="margin-top: 70px;">
+        <nav>
+            <ul class="cd-tabs-navigation">
+                <li><a data-content="cust" class="selected" href="#0">Model</a></li>
+                <!--<li><a data-content="mat" href="#0">Matériaux</a></li>-->
+            </ul>
+        </nav>
+
+
+        <ul class="cd-tabs-content">
+
+            <li data-content="cust" class="selected">
+                <header><h1>Model list</h1></header>
+                <input type="file" id="files" name="files[]" multiple />
+                <div style="overflow: scroll; max-height: 400px;"><output id="list" ></output></div>
+                <script>
+                    function handleFileSelect(evt) {
+                        var files = evt.target.files; // FileList object
+
+                        // files is a FileList of File objects. List some properties.
+                        var output = [];
+                        for (var i = 0, f; f = files[i]; i++) {
+                            output.push('<div class="dynamic"><span onclick="model=this.textContent">', f.name, '</span></div>' );
+                            model_list.push(f.name);
+                        }
+                        document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+                    }
+                    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+                    handleFileSelect();
+
+                </script>
+            </li>
+
+
+            <!--<li data-content="mat">-->
+                <!--<header><h1>Choisissez votre matériau</h1></header>-->
+                <!--<p>Vue modèle</p>-->
+                <!--<div class="flex-content">-->
+                    <!--<div class="thumbnail">-->
+                        <!--<img id="none" src="./textures/none.jpg" alt="Image" onclick="selectedMaterial=this.id" />-->
+                        <!--<div class="thumbnail-text">Aucun</div>-->
+                    <!--</div>-->
+                    <!--<div class="thumbnail">-->
+                        <!--<img id="none" src="./textures/wireframe.jpg" alt="Image" onclick="tmp_wireframe = !tmp_wireframe" />-->
+                        <!--<div class="thumbnail-text">Wireframe</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<p>Bois massif</p>-->
+                <!--<div class="flex-content">-->
+                    <!--<div class="thumbnail">-->
+                        <!--<img id="bois1" src="./textures/bois1.jpg" alt="Image" onclick="selectedMaterial=this.id" />-->
+                        <!--<div class="thumbnail-text">Bois1</div>-->
+                    <!--</div>-->
+                    <!--<div class="thumbnail">-->
+                        <!--<img id="bois2" src="./textures/bois2.jpg" class="portrait" alt="Image" onClick="selectedMaterial=this.id" />-->
+                        <!--<div class="thumbnail-text">Bois2</div>-->
+                    <!--</div>-->
+                    <!--<div class="thumbnail">-->
+                        <!--<img id="bois3" src="./textures/bois3.jpg" alt="Image" onclick="selectedMaterial=this.id" />-->
+                        <!--<div class="thumbnail-text">Bois3</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</li>-->
+
+
+
+
+        </ul> <!-- cd-tabs-content -->
+    </div> <!-- cd-tabs -->
+
+
+
+    <div id="WebGLCanvas" class="webgl">
+        <div id="current_model" style="position: absolute; margin-top: 70px; left:50%; margin-left: -100px;"></div>
+        <div class="box-control">
+            <span class="fa fa-play-circle-o" style="border-bottom-left-radius: 5px; border-top-left-radius: 5px" onclick="boolRotation = true"></span>
+            <span class="fa fa-pause" onclick="boolRotation = false"></span>
+            <span class="fa fa-undo" style="border-bottom-right-radius: 5px; border-top-right-radius: 5px" onclick="resetView()"></span>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    function outputUpdate(value, dim) {
+        switch (dim){
+            case H:
+                document.querySelector('#H').value = value;
+                break;
+            case Len:
+                document.querySelector('#Len').value = value;
+                break;
+            case l:
+                document.querySelector('#l').value = value;
+                break;
+            case Height_table:
+                document.querySelector('#Height_table').value = value;
+                break;
+            case Length_table:
+                document.querySelector('#Length_table').value = value;
+                break;
+            case Width_table:
+                document.querySelector('#Width_table').value = value;
+                break;
+            case Height_banc:
+                document.querySelector('#Height_banc').value = value;
+                break;
+            case Length_banc:
+                document.querySelector('#Length_banc').value = value;
+                break;
+            case Width_banc:
+                document.querySelector('#Width_banc').value = value;
+                break;
+        }
+    }
+
+    function toggleDiv(design) {
+        if (design == 0) {
+            document.getElementById('dim_stool').style.display = 'block';
+            document.getElementById('dim_table').style.display = 'none';
+            document.getElementById('dim_banc').style.display = 'none';
+        }
+        if (design == 1) {
+            document.getElementById('dim_stool').style.display = 'none';
+            document.getElementById('dim_table').style.display = 'block';
+            document.getElementById('dim_banc').style.display = 'none';
+        }
+        if (design == 2) {
+            document.getElementById('dim_stool').style.display = 'none';
+            document.getElementById('dim_table').style.display = 'none';
+            document.getElementById('dim_banc').style.display = 'block';
+        }
+    }
+</script>
+
+
+
+<script>
+    var scene, camera;
+
+    initializeScene();
+    var model_list = [];
+    var MAT = 'none';
+    var selectedMaterial = 'none';
+    var canvasWidth = window.innerWidth -365;
+    var boolRotation = false;
+    var tmp_rotation = 1.15;
+    var model = '';
+    var tmp_model = '';
+
+    var basematerial = new THREE.MeshBasicMaterial( { color: 0x888888 } );
+    texture_bois1 = THREE.ImageUtils.loadTexture('./textures/bois1.jpg');
+    texture_bois1.wrapS = THREE.RepeatWrapping;
+    texture_bois1.wrapT = THREE.RepeatWrapping;
+    texture_bois1.magFilter = THREE.LinearFilter;
+    var texture1 = new THREE.MeshLambertMaterial( { map: texture_bois1 });
+
+    //    texture1.repeat.set( 4, 4 );
+    texture1.magFilter = THREE.LinearFilter;
+    var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
+    var texture3 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois3.jpg')});
+    texture2.magFilter = THREE.LinearFilter;
+
+    animateScene();
+
+
+    function initializeScene(){
+        if(Detector.webgl){
+            renderer = new THREE.WebGLRenderer({antialias:true});
+        } else {
+            renderer = new THREE.CanvasRenderer();
+        }
+
+        renderer.setClearColor(0xFFFFFF, 1);
+        canvasWidth =window.innerWidth-365;
+        canvasHeight = window.innerHeight;
+        renderer.setSize(canvasWidth, canvasHeight);
+
+        document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
+
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
+        scene.add(camera);
+
+        controls = new THREE.TrackballControls( camera, renderer.domElement );
+        controls.rotateSpeed = 2.5;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.9;
+        controls.noZoom = false;
+        controls.noPan = false;
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+        controls.keys = [ 65, 83, 68 ];
+        controls.position0.set(2200,0,550);
+        controls.target0.set(400, 0, 0);
+        controls.up0.set(0,0,1);
+        controls.reset();
+
+        var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
+        //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')})
+
+    }
+
+    function setupMesh(geometry, material){
+        for (i = 0; i < geometry[0].length; i++){
+            var m = new THREE.Mesh(geometry[0][i], material);
+            scene.add (m);
+        }
+    }
+
+    function setupWire(wires){
+        for (i = 0; i < wires[0].length; i++){
+            var w = new THREE.Line(wires[0][i], new THREE.LineBasicMaterial( {color :0x000000, linewidth : 1}));
+            scene.add (w);
+        }
+    }
+
+    //    function setupGui() {
+    //        dim = {
+    //
+    //            l2 : 115,
+    //            rotation: "false",
+    //            ResetView : function(){controls.reset()}
+    //
+    //        };
+    //
+    //        var h;
+    //
+    //        var gui = new dat.GUI();
+    //
+    //        gui.add( dim, "rotation", ["true","false"]);
+    //        gui.add( dim, "ResetView");
+    //
+    //
+    //    }
+
+    function textureDef(str, basic, texture1, texture2, texture3){
+        switch(str){
+            case 'none':
+                return basic;
+            case 'bois1':
+                return texture1;
+            case 'bois2':
+                return texture2;
+            case 'bois3':
+                return texture3;
+        }
+    }
+
+    function animateScene(){
+
+        if (boolRotation){
+            scene.traverse( function( node ) {
+                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                    node.rotation.z += 0.01;
+                    tmp_rotation = node.rotation.z;
+                }
+            } );
+        }
+        requestAnimationFrame(animateScene);
+        renderScene();
+        controls.update();
+    }
+
+    $.ajaxSetup({'cache':true});
+
+    function renderScene(){
+        if (model != '' && model != tmp_model){
+            tmp_model = model;
+            document.getElementById('current_model').innerHTML = model;
+            jQuery.getScript('./new_model/'+model)
+                    .done(function() {
+                        remove = [];
+                        scene.traverse( function( node ) {
+                            if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                                remove.push(node);
+                            }
+                        } );
+                        var codeToExecute_geom = "return "+model.split(".")[0]+'.geom()';
+                        var tmpFunc_geom = new Function(codeToExecute_geom);
+                        geometry = tmpFunc_geom();
+                        var codeToExecute_wires = "return "+model.split(".")[0]+'.wireframe()';
+                        var tmpFunc_wires = new Function(codeToExecute_wires);
+                        wire = tmpFunc_wires();
+                        setupWire(wire);
+    //                                        for (var i=0; i<remove.length; i++) {
+    //                                            scene.remove(remove[i]);
+    //                                        }
+                        scene.traverse( function( node ) {
+                            if (  node instanceof THREE.Line) {
+                                node.rotation.z =tmp_rotation;
+                            }
+                        } );
+
+                        setupMesh(geometry, textureDef(MAT, basematerial, texture1, texture2, texture3 ));
+                        for (var i=0; i<remove.length; i++) {
+                            scene.remove(remove[i]);
+                        }
+                        scene.traverse( function( node ) {
+                            if ( node instanceof THREE.Mesh ) {
+                                node.rotation.z =tmp_rotation;
+                            }
+                        } );
+                    })
+                    .fail(function() {
+                        /* boo, fall back to something else */
+                    });
+    }
+
+
+            MAT = selectedMaterial;
+            canvasWidth = window.innerWidth - 365;
+            renderer.setSize(window.innerWidth -365, window.innerHeight);
+            camera.aspect = (window.innerWidth-365) / window.innerHeight;
+            camera.updateProjectionMatrix();
+//            if (design == 2) {
+//                type= 'Banc';
+//                ModuleName = type+String(Lb)+String(Wb)+String(Hb);
+//                controls.position0.set(2200,0,550);
+//                controls.target0.set(400, 0, 0);
+//                controls.up0.set(0,0,1);
+//                if (tmpModname != type) {
+//                    controls.reset();
+//                    tmp_rotation = 1.15;
+//                }
+//            }
+        renderer.render(scene, camera);
+    }
+</script>
+
+
+</body>
+</html>

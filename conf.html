@@ -10,9 +10,6 @@
     <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:900|Orbitron:500' rel='stylesheet' type='text/css'>
     <link rel="icon" type="image/x-icon" href="http://conf.cust.cc/pic/favicon2.ico" />
 
-
-
-
     <title>Cust Configurateur</title>
     <meta charset="utf-8">
     <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
@@ -21,6 +18,8 @@
     <script src="./js/CanvasRenderer.js"></script>
     <script src="./js/Projector.js"></script>
     <script src="./js/TrackballControls.js"></script>
+    <script src="./js/conf_init.js"></script>
+    <script src="./js/conf_utils.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
@@ -34,7 +33,7 @@
     <script src="js/jquery-2.1.1.js"></script>
     <script src="js/main.js"></script> <!-- Resource jQuery -->
 
-    <script src="./overlay/jquery.popupoverlay.js"></script>
+    <script src="./js/jquery.popupoverlay.js"></script>
 
     <!--Google Analytics-->
     <script>
@@ -51,13 +50,14 @@
 </head>
 <body>
 
+<div style="display: inline-block;"><
     <!--popup to manage aweber forms-->
 
     <div id="my_popup" class="overlay" >
         <!--<div style="color:#FF9A18; font-size:45px; font-family: 'Orbitron', sans-serif; margin-top:50px; text-align: center;"><strong>cust</strong></div>-->
         <h1>Bienvenue dans la version de démonstration du configurateur </h1>
         <p>Notre configurateur est en cours de développement, des améliorations régulières seront apportées afin de proposer un large choix de designs et de paramètres de personnalisation vous permettant de créer un meuble unique.</p>
-        <p>Tenez-vous informé et soutenez-nous par un simple email !</p>
+        <p>Tenez-vous informé et soutenez le projet par un simple email !</p>
 
         <!-- AWeber Web Form Generator 3.0.1 -->
 
@@ -99,17 +99,20 @@
     </div>
 
     <div id="my_popup_thanks" class="overlay">
-        <h1 style="margin-top: 50%">Merci de votre participation!</h1>
-        <p>Cliquez n'importe où pour continuer...</p>
+        <div class="my_popup_thanks_close">
+            <h1 style="margin-top: 50%">Merci de votre participation!</h1>
+            <p>Cliquez n'importe où pour continuer...</p>
+        </div>
     </div>
 
     <div id="my_popup_already" class="overlay">
-        <h1 style="margin-top: 50%">Vous êtes déjà enregistré!</h1>
-        <p>Cliquez n'importe où pour continuer...</p>
+        <div class="my_popup_already_close">
+            <h1 style="margin-top: 50%">Vous êtes déjà enregistré!</h1>
+            <p>Cliquez n'importe où pour continuer...</p>
+        </div>
     </div>
 
-    <!--script to enable/disable popup depending on URL-->
-
+    <!--script to enable/disable popup depending on URL keywords-->
     <script>
         $(document).ready(function() {
             // Initialize the plugin
@@ -155,14 +158,13 @@
             }
         });
     </script>
-    <div class="box-demo">
-        <a href="//cust.cc" style="text-decoration: none;color:#FF9A18; font-size:26px; font-family: 'Orbitron', sans-serif; float:left; margin-left:15px; line-height: 34px;">cust</a>
-        <div>Version de démonstration du configurateur </div>
-        <span class="fa fa-facebook-square" style="float:right; line-height: 0px;"></span>
 
+    <div class="box-demo">
+        <a href="//cust.cc" target="_blank" style="text-decoration: none;color:#FF9A18; font-size:26px; font-family: 'Orbitron', sans-serif; float:left; margin-left:15px; line-height: 34px;">cust</a>
+        <div style="line-height: 38px; float: left; position:absolute; left:50%; margin-left:-100px">Version de démonstration </div>
+        <a href="https://www.facebook.com/cust.cc" style="text-decoration: none; float:right; margin-right: 15px; line-height: 38px; color:white;" target="_blank"><div class="fa fa-facebook-square" ></div></a>
 
     </div>
-    <div >
 
     <div class="box-mail">
         <br>
@@ -215,6 +217,10 @@
 
             <li data-content="design">
                 <header><h1>Choisissez un design</h1></header>
+                <p>Banc</p>
+                <div class="thumbnail-design">
+                    <img src="./img/banc.jpg" alt=Image" onclick="design=2">
+                </div>
                 <p>Tabouret</p>
                 <div class="thumbnail-design">
                     <img src="./img/stool.jpg" alt=Image" onclick="design=0">
@@ -223,9 +229,23 @@
                 <div class="thumbnail-design">
                     <img src="./img/table.jpg" alt=Image" onclick="design=1">
                 </div>
+
             </li>
 
             <li data-content="dim">
+
+                <div id="dim_banc">
+                    <header><h1>Adaptez les dimensions</h1></header>
+                    <p style="float: left">Hauteur <p style="float: right"><output id="Height_banc">300</output> mm</p></p>
+                    <input type="range" min="300" max="1000" value="300" step="100" oninput="outputUpdate(value,Height_banc)">
+
+                    <p style="float: left">Longueur <p style="float: right"><output id="Length_banc">1500</output> mm</p></p>
+                    <input type="range" min="400" max="3500" value="1500" step="100" oninput="outputUpdate(value,Length_banc)">
+
+                    <p style="float: left">Largeur  <p style="float: right"><output id="Width_banc">300</output> mm</p></p>
+                    <input type="range" min="300" max="400" value="100" step="100" oninput="outputUpdate(value,Width_banc)">
+                </div>
+
                 <div id="dim_stool">
                     <header><h1>Adaptez les dimensions</h1></header>
                     <p style="float: left">Hauteur <p style="float: right"><output id="H">450</output> mm</p></p>
@@ -239,7 +259,7 @@
                 </div>
 
                 <div id="dim_table">
-                    <header><h1>Choisissez les dimensions et adaptez le meuble à votre espace</h1></header>
+                    <header><h1>Adaptez les dimensions</h1></header>
                     <p style="float: left">Hauteur <p style="float: right"><output id="Height_table">350</output> mm</p></p>
                     <input type="range" min="150" max="750" value="350" step="100" oninput="outputUpdate(value,Height_table)">
 
@@ -283,7 +303,7 @@
             </li>
 
             <li data-content="finitions">
-                <header><h1>Finitions : vous aurez ici la possibilité de choisir vos niveaux finitions : ponçage, congés sur arrête, vernissage, etc.
+                <header><h1>Finitions : vous aurez ici la possibilité de choisir vos niveaux finitions : ponçage, congés sur arête, vernissage, etc.
                 </h1></header>
                 <p>Non disponible dans la version de démonstration</p>
             </li>
@@ -292,9 +312,7 @@
         </ul> <!-- cd-tabs-content -->
     </div> <!-- cd-tabs -->
 
-
-
-    <div id="WebGLCanvas" class="webgl">
+    <div id="WebGLCanvas" style="margin-left: 365px;">
         <div class="box-control">
             <span class="fa fa-play-circle-o" style="border-bottom-left-radius: 5px; border-top-left-radius: 5px" onclick="boolRotation = true"></span>
             <span class="fa fa-pause" onclick="boolRotation = false"></span>
@@ -305,49 +323,11 @@
 </div>
 
 
-<script>
-    function outputUpdate(value, dim) {
-        switch (dim){
-            case H:
-                document.querySelector('#H').value = value;
-                break;
-            case Len:
-                document.querySelector('#Len').value = value;
-                break;
-            case l:
-                document.querySelector('#l').value = value;
-                break;
-            case Height_table:
-                document.querySelector('#Height_table').value = value;
-                break;
-            case Length_table:
-                document.querySelector('#Length_table').value = value;
-                break;
-            case Width_table:
-                document.querySelector('#Width_table').value = value;
-                break;
-        }
-    }
-
-    function toggleDiv(design) {
-        if (design == 0) {
-            document.getElementById('dim_stool').style.display = 'block';
-            document.getElementById('dim_table').style.display = 'none';
-        }
-        if (design == 1) {
-            document.getElementById('dim_stool').style.display = 'none';
-            document.getElementById('dim_table').style.display = 'block';
-        }
-    }
-</script>
-
-
 
 <script>
     var scene, camera;
 
     initializeScene();
-
 
     var H = document.querySelector('#H').value;
     var L = 450;
@@ -355,6 +335,9 @@
     var Ht = document.querySelector('#Height_table').value;
     var Lt = 450;
     var Wt = document.querySelector('#Width_table').value;
+    var Hb = document.querySelector('#Height_table').value;
+    var Lb = 1500;
+    var Wb = document.querySelector('#Width_table').value;
     var MAT = 'none';
     var selectedMaterial = 'none';
     var canvasWidth = window.innerWidth -365;
@@ -362,269 +345,30 @@
     var tmp_wireframe = wireframe;
     var boolRotation = false;
     var debug = 0;
-    var design= 0; //0: stool 1: table
+    var design= 2; //0: stool 1: table 2:banc
     var tmp_design= design;
+    var tmpModname = 'Banc';
+    var tmp_rotation = 1.15;
 
     var basematerial = new THREE.MeshBasicMaterial( { color: 0x888888 } );
-    var texture1 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois1.jpg')});
+    texture_bois1 = THREE.ImageUtils.loadTexture('./textures/bois1.jpg');
+    texture_bois1.wrapS = THREE.RepeatWrapping;
+    texture_bois1.wrapT = THREE.RepeatWrapping;
+    texture_bois1.magFilter = THREE.LinearFilter;
+    var texture1 = new THREE.MeshLambertMaterial( { map: texture_bois1 });
+
+//    texture1.repeat.set( 4, 4 );
     texture1.magFilter = THREE.LinearFilter;
     var texture2 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois2.jpg')});
     texture2.magFilter = THREE.LinearFilter;
     var texture3 = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./textures/bois3.jpg')});
     texture2.magFilter = THREE.LinearFilter;
 
-
-    var tmp_rotation = 0;
-
     toggleDiv(design);
 
     animateScene();
 
 
-    function initializeScene(){
-        if(Detector.webgl){
-            renderer = new THREE.WebGLRenderer({antialias:true});
-        } else {
-            renderer = new THREE.CanvasRenderer();
-        }
-
-        renderer.setClearColor(0xFFFFFF, 1);
-        canvasWidth =window.innerWidth-365;
-        canvasHeight = window.innerHeight;
-        renderer.setSize(canvasWidth, canvasHeight);
-
-        document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
-
-        scene = new THREE.Scene();
-
-        camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 10000);
-        scene.add(camera);
-
-        controls = new THREE.TrackballControls( camera, renderer.domElement );
-        controls.rotateSpeed = 2.0;
-        controls.zoomSpeed = 1.2;
-        controls.panSpeed = 0.8;
-        controls.noZoom = false;
-        controls.noPan = false;
-        controls.staticMoving = true;
-        controls.dynamicDampingFactor = 0.3;
-        controls.keys = [ 65, 83, 68 ];
-        controls.position0.set(1400,350,950);
-        controls.target0.set(0, 20, 180);
-        controls.up0.set(0,0,1);
-        controls.reset();
-
-        var material = new THREE.MeshBasicMaterial( { color: 0x888888 } );
-        //var material = new THREE.MeshLambertMaterial( { map: THREE.ImageUtils.loadTexture('./bois3.jpg')})
-
-        // add subtle ambient lighting
-        var ambientLight = new THREE.AmbientLight(0xbbbbbb);
-        scene.add(ambientLight);
-
-        // directional lighting
-        var directionalLight = new THREE.DirectionalLight(0xffffff);
-        directionalLight.position.set(500, 500, 500).normalize();
-        scene.add(directionalLight);
-
-
-//        setupGui();
-    }
-
-    function resetView() {
-        controls.reset();
-        if (design == 0){
-            tmp_rotation = 0;
-        }
-        else {
-            tmp_rotation = 1.15;
-        }
-        scene.traverse( function( node ) {
-            if (  node instanceof THREE.Line || node instanceof THREE.Mesh) {
-                node.rotation.z =tmp_rotation;
-            }
-        });
-    }
-
-
-
-    function setupMesh(geometry, material){
-        for (i = 0; i < geometry[0].length; i++){
-            var m = new THREE.Mesh(geometry[0][i], material);
-            scene.add (m);
-        }
-    }
-
-    function setupWire(wires){
-        for (i = 0; i < wires[0].length; i++){
-            var w = new THREE.Line(wires[0][i], new THREE.LineBasicMaterial( {color :0x000000, linewidth : 1}));
-            scene.add (w);
-        }
-    }
-
-    //    function setupGui() {
-    //        dim = {
-    //
-    //            l2 : 115,
-    //            rotation: "false",
-    //            ResetView : function(){controls.reset()}
-    //
-    //        };
-    //
-    //        var h;
-    //
-    //        var gui = new dat.GUI();
-    //
-    //        gui.add( dim, "rotation", ["true","false"]);
-    //        gui.add( dim, "ResetView");
-    //
-    //
-    //    }
-
-    function textureDef(str, basic, texture1, texture2, texture3){
-        switch(str){
-            case 'none':
-                return basic;
-            case 'bois1':
-                return texture1;
-            case 'bois2':
-                return texture2;
-            case 'bois3':
-                return texture3;
-        }
-    }
-
-    function animateScene(){
-
-        if (boolRotation){
-            scene.traverse( function( node ) {
-                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
-                    node.rotation.z += 0.01;
-                    tmp_rotation = node.rotation.z;
-                }
-            } );
-        }
-        requestAnimationFrame(animateScene);
-        renderScene();
-        controls.update();
-    }
-
-    $.ajaxSetup({'cache':true});
-
-    function renderScene(){
-
-        if (document.querySelector('#H').value != H || document.querySelector('#Len').value != L || document.querySelector('#l').value != l || selectedMaterial != MAT || (window.innerWidth -365) != canvasWidth || tmp_wireframe != wireframe || tmp_design != design || document.querySelector('#Height_table').value != Ht || document.querySelector('#Length_table').value != Lt || document.querySelector('#Width_table').value != Wt){
-            H = document.querySelector('#H').value;
-            L = document.querySelector('#Len').value;
-            l = document.querySelector('#l').value;
-            Ht = document.querySelector('#Height_table').value;
-            Lt = document.querySelector('#Length_table').value;
-            Wt = document.querySelector('#Width_table').value;
-            MAT = selectedMaterial;
-            toggleDiv(design);
-            tmp_design = design;
-            canvasWidth = window.innerWidth - 365;
-            wireframe = tmp_wireframe;
-            // responsivness
-            renderer.setSize(window.innerWidth -365, window.innerHeight);
-            camera.aspect = (window.innerWidth-365) / window.innerHeight;
-            camera.updateProjectionMatrix();
-            if (design == 0){
-                ModuleName = 'Stool'+String(L)+String(l)+String(H)+String(115);
-                controls.position0.set(1400,350,950);
-                controls.target0.set(0, 20, 180);
-                controls.up0.set(0,0,1);
-                controls.reset();
-                tmp_rotation = 0;
-            }
-            if (design == 1) {
-                ModuleName = 'Table'+String(Lt)+String(Wt)+String(Ht);
-                controls.position0.set(1400,0,550);
-                controls.target0.set(400, 0, 0);
-                controls.up0.set(0,0,1);
-                controls.reset();
-                tmp_rotation = 1.15;
-            }
-            jQuery.getScript('./new_model/'+ModuleName+'.js')
-                    .done(function() {
-                        remove = [];
-                        scene.traverse( function( node ) {
-                            if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
-                                remove.push(node);
-                            }
-                        } );
-                        var codeToExecute_geom = "return "+ModuleName+'.geom()';
-                        var tmpFunc_geom = new Function(codeToExecute_geom);
-                        geometry = tmpFunc_geom();
-
-
-                        if (wireframe) {
-                            var codeToExecute_wires = "return "+ModuleName+'.wireframe()';
-                            var tmpFunc_wires = new Function(codeToExecute_wires);
-                            wire = tmpFunc_wires();
-                            setupWire(wire);
-//                                        for (var i=0; i<remove.length; i++) {
-//                                            scene.remove(remove[i]);
-//                                        }
-                            scene.traverse( function( node ) {
-                                if (  node instanceof THREE.Line) {
-                                    node.rotation.z =tmp_rotation;
-                                }
-                            } );
-                        }
-
-                        setupMesh(geometry, textureDef(MAT, basematerial, texture1, texture2, texture3 ));
-                        for (var i=0; i<remove.length; i++) {
-                            scene.remove(remove[i]);
-                        }
-                        scene.traverse( function( node ) {
-                            if ( node instanceof THREE.Mesh ) {
-                                node.rotation.z =tmp_rotation;
-                            }
-                        } );
-                    })
-                    .fail(function() {
-                        /* boo, fall back to something else */
-                    });
-//            if ($('#c1').is(':checked')) {
-//                jQuery.getScript('./modelWireFrame/'+ModuleName+'.js')
-//                        .done(function() {
-//                            remove = [];
-//                            scene.traverse( function( node ) {
-//                                if (node instanceof THREE.Line) {
-//                                    remove.push(node);
-//                                }
-//                            } );
-//                            var codeToExecute = ModuleName+'.wireframe(scene)';
-//                            var tmpFunc = new Function(codeToExecute);
-//                            tmpFunc();
-//                            for (var i=0; i<remove.length; i++) {
-//                                scene.remove(remove[i]);
-//                            }
-//                            scene.traverse( function( node ) {
-//                                if ( node instanceof THREE.Mesh || node instanceof THREE.Line) {
-//                                    node.rotation.z =tmp_rotation;
-//                                }
-//                            } );
-//
-//                        })
-//                        .fail(function() {
-//                            /* boo, fall back to something else */
-//                        })
-//                }
-//            else {
-//                remove = [];
-//                scene.traverse( function( node ) {
-//                    if (node instanceof THREE.Line) {
-//                        remove.push(node);
-//                    }
-//                } );
-//                for (var i=0; i<remove.length; i++) {
-//                    scene.remove(remove[i]);
-//                }
-//            }
-        }
-        renderer.render(scene, camera);
-    }
 </script>
 
 </body>
